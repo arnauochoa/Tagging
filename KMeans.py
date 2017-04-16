@@ -9,7 +9,7 @@ import mpl_toolkits.mplot3d.axes3d as axes3d
 from sklearn.decomposition import PCA
 
     
-def distance(X,C):
+def distance(X, C):
     """@brief   Calculates the distance between each pixel and each centroid
 
     @param  X  numpy array PxD 1st set of data points (usually data points)
@@ -18,11 +18,8 @@ def distance(X,C):
     @return dist: PxK numpy array position ij is the distance between the
     i-th point of the first set an the j-th point of the second set
     """
-    #########################################################
-    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-    ##  AND CHANGE FOR YOUR OWN CODE
-    #########################################################
-    return np.random.rand(X.shape[0], C.shape[0])
+
+    return np.linalg.norm(X - C)
 
 class KMeans():
     
@@ -107,14 +104,24 @@ class KMeans():
         """@brief Initialization of centroids
         depends on self.options['km_init']
         """
-#######################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#######################################################
         if self.options['km_init'].lower() == 'first':
-            self.centroids = np.first.rand(self.K,self.X.shape[1])
+            numCentroids = 0
+            index = 0
+            while numCentroids < self.K:
+                pixel = self.X[index]
+                if pixel not in self.centroids:
+                    self.centroids.append(pixel)
+                    numCentroids += 1;
+                index +=1
         elif self.options['km_init'].lower() == 'random':
-            self.centroids = np.random.rand(self.K,self.X.shape[1])
+            numCentroids = 0
+            index = 0
+            while numCentroids < self.K:
+                pixel = self.X[index]
+                if pixel not in self.centroids:
+                    self.centroids.append(pixel)
+                    numCentroids += 1;
+                index = np.random.randint(0, self.X.__len__())
 
         
     def _cluster_points(self):
