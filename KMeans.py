@@ -104,6 +104,9 @@ class KMeans():
         """@brief Initialization of centroids
         depends on self.options['km_init']
         """
+
+        #primera idea, falta testejar
+
         if self.options['km_init'].lower() == 'first':
             numCentroids = 0
             index = 0
