@@ -106,35 +106,49 @@ class KMeans():
         """
 
         #primera idea, falta testejar
-
+        self.centroids = []
         if self.options['km_init'].lower() == 'first':
-            numCentroids = 0
-            index = 0
-            while numCentroids < self.K:
-                pixel = self.X[index]
-                if pixel not in self.centroids:
-                    self.centroids.append(pixel)
-                    numCentroids += 1;
-                index +=1
+            for index in range(0, self.K):
+                self.centroids.append(self.X[index])
+
+            # ==== per a que no siguin iguals ====
+            # num_centroids = 0
+            # index = 0
+            # while num_centroids < self.K:
+            #     pixel = self.X[index]
+            #     if pixel not in self.centroids:
+            #         self.centroids.append(pixel)
+            #         num_centroids += 1
+            #     index += 1
+
         elif self.options['km_init'].lower() == 'random':
-            numCentroids = 0
-            index = 0
-            while numCentroids < self.K:
-                pixel = self.X[index]
-                if pixel not in self.centroids:
-                    self.centroids.append(pixel)
-                    numCentroids += 1;
-                index = np.random.randint(0, self.X.__len__())
+            for n in range(0, self.K):
+                index = np.random.randint(0, len(self.X))
+                self.centroids.append(self.X[index])
+
+            # ==== per a que no siguin iguals ====
+            # num_centroids = 0
+            # index = 0
+            # while num_centroids < self.K:
+            #     pixel = self.X[index]
+            #     if pixel not in self.centroids:
+            #         self.centroids.append(pixel)
+            #         num_centroids += 1
+            #     index = np.random.randint(0, self.X.__len__())
 
         
     def _cluster_points(self):
         """@brief   Calculates the closest centroid of all points in X
         """
-#######################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#######################################################
-        self.clusters = np.random.randint(self.K,size=self.clusters.shape)
+
+        for pixel in self.X:
+            min_distance = float('inf')
+            for centroid in self.centroids:
+                dist = distance(pixel, centroid)
+                if dist < min_distance:
+                    min_distance = dist
+            self.clusters.append(min_distance) #TODO: no se si es tornen aixi
+
 
         
     def _get_centroids(self):
