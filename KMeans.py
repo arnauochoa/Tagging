@@ -20,11 +20,11 @@ def distance(X, C):
     i-th point of the first set an the j-th point of the second set
     """
 
-    dist = []
-    for i in range(0, len(X)):
-        for j in range(0, len(C)):
+    dist = np.empty((len(X), len(C)))
+    for i in range(len(X)):
+        for j in range(len(C)):
             dist[i][j] = np.linalg.norm(X[i] - C[j])
-    return dist
+            return dist
 
 class KMeans():
     
