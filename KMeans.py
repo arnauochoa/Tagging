@@ -136,7 +136,7 @@ class KMeans():
             #     index = np.random.randint(0, self.X.__len__())
 
         
-    def _cluster_points(self):  #TODO: no tinc clar que sigi aixi
+    def _cluster_points(self):  #TODO: no tinc clar que sigui aixi
         """@brief   Calculates the closest centroid of all points in X
         """
 
@@ -177,12 +177,12 @@ class KMeans():
         """@brief   Checks if there is a difference between current and old centroids
         """
 
+        converges = True
         for centroids in zip(self.centroids, self.old_centroids):
-            if distance(centroids[0], centroids[1]) <= self.options['tolerance']:
-                return True
-            else:
-                return False
+            if distance(centroids[0], centroids[1]) > self.options['tolerance']:
+                converges = False
 
+        return converges
 
         
     def _iterate(self, show_first_time=True):
