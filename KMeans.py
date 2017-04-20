@@ -20,7 +20,11 @@ def distance(X, C):
     i-th point of the first set an the j-th point of the second set
     """
 
-    return np.linalg.norm(X - C)
+    dist = []
+    for i in range(0, len(X)):
+        for j in range(0, len(C)):
+            dist[i][j] = np.linalg.norm(X[i] - C[j])
+    return dist
 
 class KMeans():
     
@@ -140,19 +144,9 @@ class KMeans():
         """@brief   Calculates the closest centroid of all points in X
         """
 
-        pixel_index = 0
-        for pixel in self.X:
-            min_distance = float('inf')
-            count = 0
-            cluster = 0
-            for centroid in self.centroids:
-                dist = distance(pixel, centroid)
-                if dist < min_distance:
-                    min_distance = dist
-                    cluster = count
-                count += 1
-            pixel_index += 1
-            self.clusters[pixel_index] = cluster
+        distances = distance(self.X, self.centroids)
+        for pixel_index in range(0, len(self.X)):
+            self.clusters[pixel_index] = np.argmin(distances[pixel_index])
 
         
     def _get_centroids(self): #TODO: falta testejar
@@ -162,15 +156,13 @@ class KMeans():
 
         self.old_centroids = deepcopy(self.centroids)
 
-        for centroid in range(0, self.K):
+        for cluster in range(0, self.K):
             cluster_pixels = []
-            for pixel in range(0, len(self.clusters)):
-                if self.clusters[pixel] == centroid:
-                    cluster_pixels.append(distance(self.X[pixel],
-                                                   self.centroids[centroid]))
-
-                if cluster_pixels:
-                    self.centroids[centroid] = np.mean(cluster_pixels)
+            for pixel in range(0, len(self.X)):
+                if self.clusters[pixel] == cluster:
+                    cluster_pixels.append(self.X[pixel])
+            if cluster_pixels:
+                self.centroids[cluster] = np.mean(cluster_pixels, axis=0)
                 
 
     def _converges(self):  #TODO: falta testejar
@@ -179,9 +171,8 @@ class KMeans():
 
         converges = True
         for centroids in zip(self.centroids, self.old_centroids):
-            if distance(centroids[0], centroids[1]) > self.options['tolerance']:
+            if np.linalg.norm(centroids[0], centroids[1]) > self.options['tolerance']:
                 converges = False
-
         return converges
 
         
