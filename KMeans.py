@@ -155,17 +155,25 @@ class KMeans():
             self.clusters[pixel_index] = cluster
 
         
-    def _get_centroids(self):
+    def _get_centroids(self): #TODO: falta testejar
         """@brief   Calculates coordinates of centroids based on the coordinates 
                     of all the points assigned to the centroid
         """
 
         self.old_centroids = deepcopy(self.centroids)
-        #TODO
 
+        for centroid in range(0, self.K):
+            cluster_pixels = []
+            for pixel in range(0, len(self.clusters)):
+                if self.clusters[pixel] == centroid:
+                    cluster_pixels.append(distance(self.X[pixel],
+                                                   self.centroids[centroid]))
+
+                if cluster_pixels:
+                    self.centroids[centroid] = np.mean(cluster_pixels)
                 
 
-    def _converges(self):
+    def _converges(self):  #TODO: falta testejar
         """@brief   Checks if there is a difference between current and old centroids
         """
 
