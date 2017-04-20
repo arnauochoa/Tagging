@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as axes3d
 from sklearn.decomposition import PCA
+from copy import deepcopy
 
     
 def distance(X, C):
@@ -48,11 +49,8 @@ class KMeans():
 
         sets X an as an array of data in vector form (PxD  where P=N*M and D=3 in the above example)
         """
-#######################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#######################################################
-        self.X = np.random.rand(100,5)
+
+        self.X = np.reshape(X, (-1, X.shape[2]))
 
             
     def _init_options(self, options):
@@ -105,7 +103,8 @@ class KMeans():
         depends on self.options['km_init']
         """
 
-        #primera idea, falta testejar
+        #TODO: com comprovar que no son iguals?
+
         self.centroids = []
         if self.options['km_init'].lower() == 'first':
             for index in range(0, self.K):
@@ -137,39 +136,46 @@ class KMeans():
             #     index = np.random.randint(0, self.X.__len__())
 
         
-    def _cluster_points(self):
+    def _cluster_points(self):  #TODO: no tinc clar que sigi aixi
         """@brief   Calculates the closest centroid of all points in X
         """
 
+        pixel_index = 0
         for pixel in self.X:
             min_distance = float('inf')
+            count = 0
+            cluster = 0
             for centroid in self.centroids:
                 dist = distance(pixel, centroid)
                 if dist < min_distance:
                     min_distance = dist
-            self.clusters.append(min_distance) #TODO: no se si es tornen aixi
-
+                    cluster = count
+                count += 1
+            pixel_index += 1
+            self.clusters[pixel_index] = cluster
 
         
     def _get_centroids(self):
         """@brief   Calculates coordinates of centroids based on the coordinates 
                     of all the points assigned to the centroid
         """
-#######################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#######################################################
-        pass
+
+        self.old_centroids = deepcopy(self.centroids)
+        #TODO
+
                 
 
     def _converges(self):
         """@brief   Checks if there is a difference between current and old centroids
         """
-#######################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#######################################################
-        return True
+
+        for centroids in zip(self.centroids, self.old_centroids):
+            if distance(centroids[0], centroids[1]) <= self.options['tolerance']:
+                return True
+            else:
+                return False
+
+
         
     def _iterate(self, show_first_time=True):
         """@brief   One iteration of K-Means algorithm. This method should 
