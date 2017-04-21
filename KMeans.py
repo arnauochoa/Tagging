@@ -20,10 +20,11 @@ def distance(X, C):
     i-th point of the first set an the j-th point of the second set
     """
 
-    dist = np.empty((len(X), len(C)))
+    dist = np.ndarray((len(X), len(C)))
+
     for i in range(len(X)):
         for j in range(len(C)):
-            dist[i][j] = np.linalg.norm(X[i] - C[j])
+            dist[i, j] = np.linalg.norm(X[i] - C[j])
             return dist
 
 class KMeans():
@@ -90,7 +91,7 @@ class KMeans():
         @param  options DICT dctionary with options
         """
         self.K = K                                             # INT number of clusters
-        if self.K>0:
+        if self.K > 0:
             self._init_centroids()                             # LIST centroids coordinates
             self.old_centroids = np.empty_like(self.centroids) # LIST coordinates of centroids from previous iteration
             self.clusters = np.zeros(len(self.X))              # LIST list that assignes each element of X into a cluster
@@ -109,10 +110,10 @@ class KMeans():
 
         #TODO: com comprovar que no son iguals?
 
-        self.centroids = []
+        self.centroids = np.empty(self.K)
         if self.options['km_init'].lower() == 'first':
-            for index in range(0, self.K):
-                self.centroids.append(self.X[index])
+            for index in range(self.K):
+                np.append(self.centroids, self.X[index])
 
             # ==== per a que no siguin iguals ====
             # num_centroids = 0
@@ -125,9 +126,9 @@ class KMeans():
             #     index += 1
 
         elif self.options['km_init'].lower() == 'random':
-            for n in range(0, self.K):
-                index = np.random.randint(0, len(self.X))
-                self.centroids.append(self.X[index])
+            for n in range(self.K):
+                index = np.random.randint(len(self.X))
+                np.append(self.centroids, self.X[index])
 
             # ==== per a que no siguin iguals ====
             # num_centroids = 0
@@ -145,7 +146,7 @@ class KMeans():
         """
 
         distances = distance(self.X, self.centroids)
-        for pixel_index in range(0, len(self.X)):
+        for pixel_index in range(len(self.X)):
             self.clusters[pixel_index] = np.argmin(distances[pixel_index])
 
         
@@ -156,9 +157,9 @@ class KMeans():
 
         self.old_centroids = deepcopy(self.centroids)
 
-        for cluster in range(0, self.K):
+        for cluster in range(self.K):
             cluster_pixels = []
-            for pixel in range(0, len(self.X)):
+            for pixel in range(len(self.X)):
                 if self.clusters[pixel] == cluster:
                     cluster_pixels.append(self.X[pixel])
             if cluster_pixels:
