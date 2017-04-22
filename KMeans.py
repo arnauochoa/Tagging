@@ -25,7 +25,7 @@ def distance(X, C):
     for i in range(len(X)):
         for j in range(len(C)):
             dist[i, j] = np.linalg.norm(X[i] - C[j])
-            return dist
+    return dist
 
 class KMeans():
     
@@ -62,9 +62,9 @@ class KMeans():
         """@brief Initialization of options in case some fields are left undefined
         
         @param  options DICT dctionary with options
-
-			sets de options parameters
+        sets de options parameters
         """
+
         if options == None:
             options = {}
         if not 'km_init' in options:
@@ -158,13 +158,12 @@ class KMeans():
         self.old_centroids = deepcopy(self.centroids)
 
         for cluster in range(self.K):
-            cluster_pixels = []
+            cluster_pixels = np.array([])
             for pixel in range(len(self.X)):
                 if self.clusters[pixel] == cluster:
-                    cluster_pixels.append(self.X[pixel])
+                    np.append(cluster_pixels, self.X[pixel])
             if cluster_pixels:
-                self.centroids[cluster] = np.mean(cluster_pixels, axis=0)
-                
+                self.centroids[cluster] = np.mean(cluster_pixels)
 
     def _converges(self):  #TODO: falta testejar
         """@brief   Checks if there is a difference between current and old centroids
@@ -176,7 +175,6 @@ class KMeans():
                 converges = False
         return converges
 
-        
     def _iterate(self, show_first_time=True):
         """@brief   One iteration of K-Means algorithm. This method should 
                     reassigne all the points from X to their closest centroids
@@ -187,7 +185,6 @@ class KMeans():
         self._get_centroids()
         if self.options['verbose']:
             self.plot(show_first_time)
-
 
     def run(self):
         """@brief   Runs K-Means algorithm until it converges or until the number
@@ -202,8 +199,7 @@ class KMeans():
         if self.options['max_iter'] > self.num_iter:
             while not self._converges() :
                 self._iterate(False)
-      
-      
+
     def bestK(self):
         """@brief   Runs K-Means multiple times to find the best K for the current 
                     data given the 'fitting' method. In cas of Fisher elbow method 

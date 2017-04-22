@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ca200408-19fd-4343-8cb8-0fb3018191f8" name="Default" comment="" />
+    <list default="true" id="ca200408-19fd-4343-8cb8-0fb3018191f8" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Test64/01-2 distance function.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Test64/01-8 testing similarity metric 1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Test64/01-9 testing similarity metric 1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Test64/02-2 distance function.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Test64/02-8 testing similarity metric 1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Test64/02-9 testing similarity metric 1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Test64/03-2 distance function.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Test64/03-8 testing similarity metric 1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Test64/03-9 testing similarity metric 1.txt" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/KMeans.py" afterPath="$PROJECT_DIR$/KMeans.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test64.py" afterPath="$PROJECT_DIR$/Test64.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test64/01-1 testing data init.txt" afterPath="$PROJECT_DIR$/Test64/01-1 testing data init.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test64/01-4 testing centroid update.txt" afterPath="$PROJECT_DIR$/Test64/01-4 testing centroid update.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test64/01-5 testing centroid convergence.txt" afterPath="$PROJECT_DIR$/Test64/01-5 testing centroid convergence.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test64/02-1 testing data init.txt" afterPath="$PROJECT_DIR$/Test64/02-1 testing data init.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test64/02-4 testing centroid update.txt" afterPath="$PROJECT_DIR$/Test64/02-4 testing centroid update.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test64/02-5 testing centroid convergence.txt" afterPath="$PROJECT_DIR$/Test64/02-5 testing centroid convergence.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test64/03-1 testing data init.txt" afterPath="$PROJECT_DIR$/Test64/03-1 testing data init.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test64/03-4 testing centroid update.txt" afterPath="$PROJECT_DIR$/Test64/03-4 testing centroid update.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test64/03-5 testing centroid convergence.txt" afterPath="$PROJECT_DIR$/Test64/03-5 testing centroid convergence.txt" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -10,8 +32,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/Tagging1617$Test64.coverage" NAME="Test64 Coverage Results" MODIFIED="1492857778573" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Tagging1617$KMeansTest.coverage" NAME="KMeansTest Coverage Results" MODIFIED="1492626267057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Tagging1617$Test.coverage" NAME="Test Coverage Results" MODIFIED="1492854570213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Tagging1617$Test.coverage" NAME="Test Coverage Results" MODIFIED="1492856536988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -39,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KMeans.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="KMeans.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/KMeans.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1342">
-              <caret line="184" column="26" lean-forward="true" selection-start-line="184" selection-start-column="26" selection-end-line="184" selection-end-column="26" />
+            <state relative-caret-position="413">
+              <caret line="166" column="16" lean-forward="false" selection-start-line="166" selection-start-column="16" selection-end-line="166" selection-end-column="16" />
               <folding>
                 <element signature="e#33#51#0" expanded="true" />
               </folding>
@@ -51,11 +74,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Test.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Test.py">
+      <file leaf-file-name="Test64.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Test64.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="59" column="34" lean-forward="false" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
+            <state relative-caret-position="110">
+              <caret line="22" column="20" lean-forward="false" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -118,6 +141,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Tagging.py" />
+        <option value="$PROJECT_DIR$/Test64.py" />
         <option value="$PROJECT_DIR$/KMeans.py" />
       </list>
     </option>
@@ -194,7 +218,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="js.eslint.eslintPackage" value="" />
   </component>
-  <component name="RunManager" selected="Python.Test">
+  <component name="RunManager" selected="Python.Test64">
     <configuration default="false" name="KMeansTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -227,6 +251,24 @@
       <module name="Tagging1617" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Test64" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Tagging1617" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Test64.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -445,14 +487,16 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="2">
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Python.KMeansTest" />
       <item index="1" class="java.lang.String" itemvalue="Python.Test" />
+      <item index="2" class="java.lang.String" itemvalue="Python.Test64" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Python.Test" />
-        <item index="1" class="java.lang.String" itemvalue="Python.KMeansTest" />
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Python.Test64" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Test" />
+        <item index="2" class="java.lang.String" itemvalue="Python.KMeansTest" />
       </list>
     </recent_temporary>
   </component>
@@ -486,13 +530,13 @@
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.117506" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20294599" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32978722" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33060557" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6685761" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31423897" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.705401" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -820,21 +864,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/KMeans.py">
+    <entry file="file://$PROJECT_DIR$/Test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1342">
-          <caret line="184" column="26" lean-forward="true" selection-start-line="184" selection-start-column="26" selection-end-line="184" selection-end-column="26" />
-          <folding>
-            <element signature="e#33#51#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="41" column="33" lean-forward="false" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Test.py">
+    <entry file="file://$PROJECT_DIR$/Test64.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="59" column="34" lean-forward="false" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
+        <state relative-caret-position="110">
+          <caret line="22" column="20" lean-forward="false" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/KMeans.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="413">
+          <caret line="166" column="16" lean-forward="false" selection-start-line="166" selection-start-column="16" selection-end-line="166" selection-end-column="16" />
+          <folding>
+            <element signature="e#33#51#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

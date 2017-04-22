@@ -10,7 +10,7 @@ from skimage.transform import rescale
 import numpy as np
 
 import os.path
-if os.path.isfile('TeachersLabels.py'):
+if os.path.isfile('TeachersLabels.py'): 
     student = False
     import TeachersLabels as lb
     import TeachersKMeans as km
@@ -52,7 +52,7 @@ def PrintTestResult(Mess,s,t,ok):
         print 'desired result <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
         print t
         print '\n\n'
-
+        
 def CheckTest(Message, D, File, student):
     same = 0
     if student:
@@ -63,7 +63,7 @@ def CheckTest(Message, D, File, student):
             same = (D==DT).all()
         else:
             same = (D==DT)
-
+            
         PrintTestResult(Message, D, DT, same)
     else:
         if type(D) is not list and type(D) is not float:
@@ -71,17 +71,17 @@ def CheckTest(Message, D, File, student):
         with open(File, 'w') as outfile:
             json.dump(D, outfile, ensure_ascii=False)
     return same
-
+            
 ######################################################################################################
 def TestSolution(Test, Options, GTFile, NImage):
     global student
     Options, GTFile, NImage = TestInfo(Test, Options, GTFile, NImage)
     ######################################################################################################
     GT = lb.loadGT(ImageFolder + GTFile)
-
+    
     im = io.imread(ImageFolder + GT[NImage][0])
     im = rescale(im, 0.7, preserve_range=True)
-
+    
     Messages = []
     Results = []
     print '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'
@@ -91,9 +91,9 @@ def TestSolution(Test, Options, GTFile, NImage):
     ######################################################################################################
     ######################################################################################################
     Message = '-1 testing data init'
-
+    
     File = TestFolder + '%02d'%Test + Message + '.txt'
-
+    
     k_m = km.KMeans(im, Options['K'], Options)
     D=k_m.X[:10]
     Results.append(CheckTest(Message, D, File, student))
@@ -103,99 +103,99 @@ def TestSolution(Test, Options, GTFile, NImage):
     ######################################################################################################
     ######################################################################################################
     Message = '-2 testing distance function'
-
+    
     File = TestFolder + '%02d'%Test + Message + '.txt'
-
+    
     X=np.arange(50,0,-0.5).reshape(-1,4)
     C=np.arange(6,0,-0.5).reshape(-1,4)
     D = km.distance(X,C)
     Results.append(CheckTest(Message, D, File, student))
     Messages.append(Message)
-
+    
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
     Message = '-3 testing cluster grouping'
-
+    
     File = TestFolder + '%02d'%Test + Message + '.txt'
-
+    
     k_m = km.KMeans(im, Options['K'], Options)
     k_m._cluster_points()
     D=k_m.clusters[:100]
     Results.append(CheckTest(Message, D, File, student))
     Messages.append(Message)
-
+    
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
     Message = '-4 testing centroid update'
-
+    
     File = TestFolder + '%02d'%Test + Message + '.txt'
-
+    
     k_m = km.KMeans(im, Options['K'], Options)
     k_m._iterate()
     D=k_m.centroids
     Results.append(CheckTest(Message, D, File, student))
     Messages.append(Message)
-
+    
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
     Message = '-5 testing centroid convergence'
-
+    
     File = TestFolder + '%02d'%Test + Message + '.txt'
-
+    
     k_m = km.KMeans(im, Options['K'], Options)
     k_m.run()
     D=k_m.centroids
     Results.append(CheckTest(Message, D, File, student))
     Messages.append(Message)
-
+    
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
     Message = '-6 testing color labels extraction (simple labels)'
     File = TestFolder + '%02d'%Test + Message + '.txt'
-
+    
     k_m = km.KMeans(im, Options['K'], Options)
     k_m.run()
     Options['single_thr']=0
     lab,_ = lb.getLabels(k_m, Options)
     Results.append(CheckTest(Message, lab, File, student))
     Messages.append(Message)
-
+    
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
     Message = '-7 testing color labels extraction (compund labels)'
     File = TestFolder + '%02d'%Test + Message + '.txt'
-
+    
     k_m = km.KMeans(im, Options['K'], Options)
     k_m.run()
     Options['single_thr']=1
     lab,_ = lb.getLabels(k_m, Options)
     Results.append(CheckTest(Message, lab, File, student))
     Messages.append(Message)
-
+    
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
     Message = '-8 testing color labels extraction (0.6)'
     File = TestFolder + '%02d'%Test + Message + '.txt'
-
+    
     k_m = km.KMeans(im, Options['K'], Options)
     k_m.run()
     Options['single_thr']=0.6
     lab,_ = lb.getLabels(k_m, Options)
     Results.append(CheckTest(Message, lab, File, student))
     Messages.append(Message)
-
+    
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
     Message = '-9 testing similarity metric 100'
     File = TestFolder + '%02d'%Test + Message + '.txt'
-
+    
     import random
     A = GT[NImage][1]
     B = GT[NImage][1][:]
@@ -203,13 +203,13 @@ def TestSolution(Test, Options, GTFile, NImage):
     D = lb.similarityMetric(A,B, Options)
     Results.append(CheckTest(Message, D, File, student))
     Messages.append(Message)
-
+    
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
     Message = '-10 testing similarity metric 2'
     File = TestFolder + '%02d'%Test + Message + '.txt'
-
+    
     import random
     A = GT[NImage][1]
     B = GT[NImage+2][1][:]
@@ -217,7 +217,7 @@ def TestSolution(Test, Options, GTFile, NImage):
     D = lb.similarityMetric(A,B, Options)
     Results.append(CheckTest(Message, D, File, student))
     Messages.append(Message)
-
+    
     if student:
         print "\n\n\n                SUMMARY  TEST " + str(Test)
         for i in range(len(Messages)):
