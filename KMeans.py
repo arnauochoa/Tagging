@@ -102,7 +102,6 @@ class KMeans():
 ##  THIS FUNCTION CAN BE MODIFIED FROM THIS POINT, if needed
 #############################################################
 
-
     def _init_centroids(self):
         """@brief Initialization of centroids
         depends on self.options['km_init']
@@ -112,44 +111,16 @@ class KMeans():
 
         self.centroids = np.empty(self.K)
         if self.options['km_init'].lower() == 'first':
-            for index in range(self.K):
-                np.append(self.centroids, self.X[index])
+            self.centroids = [self.X[i] for i in range(self.K)]
+        else:
+            self.centroids = [self.X[np.random.randint(len(self.X))] for _ in range(self.K)]
 
-            # ==== per a que no siguin iguals ====
-            # num_centroids = 0
-            # index = 0
-            # while num_centroids < self.K:
-            #     pixel = self.X[index]
-            #     if pixel not in self.centroids:
-            #         self.centroids.append(pixel)
-            #         num_centroids += 1
-            #     index += 1
-
-        elif self.options['km_init'].lower() == 'random':
-            for n in range(self.K):
-                index = np.random.randint(len(self.X))
-                np.append(self.centroids, self.X[index])
-
-            # ==== per a que no siguin iguals ====
-            # num_centroids = 0
-            # index = 0
-            # while num_centroids < self.K:
-            #     pixel = self.X[index]
-            #     if pixel not in self.centroids:
-            #         self.centroids.append(pixel)
-            #         num_centroids += 1
-            #     index = np.random.randint(0, self.X.__len__())
-
-        
     def _cluster_points(self):  #TODO: no tinc clar que sigui aixi
         """@brief   Calculates the closest centroid of all points in X
         """
 
-        distances = distance(self.X, self.centroids)
-        for pixel_index in range(len(self.X)):
-            self.clusters[pixel_index] = np.argmin(distances[pixel_index])
+        self.clusters = np.argmin(distance(self.X, self.centroids), axis=1)
 
-        
     def _get_centroids(self): #TODO: falta testejar
         """@brief   Calculates coordinates of centroids based on the coordinates 
                     of all the points assigned to the centroid
