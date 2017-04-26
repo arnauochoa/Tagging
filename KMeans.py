@@ -111,7 +111,7 @@ class KMeans():
 
         self.centroids = np.empty(self.K)
         if self.options['km_init'].lower() == 'first':
-            self.centroids = [self.X[i] for i in range(self.K)]
+            self.centroids = self.X[0:self.K]
         else:
             self.centroids = [self.X[np.random.randint(len(self.X))] for _ in range(self.K)]
 
@@ -126,25 +126,56 @@ class KMeans():
                     of all the points assigned to the centroid
         """
 
-        self.old_centroids = deepcopy(self.centroids)
+        """self.old_centroids = deepcopy(self.centroids)"""
 
-        for cluster in range(self.K):
+        self.old_centroids = np.array(self.centroids, copy=True)
+
+        """for cluster in range(self.K):
             cluster_pixels = np.array([])
             for pixel in range(len(self.X)):
                 if self.clusters[pixel] == cluster:
                     np.append(cluster_pixels, self.X[pixel])
             if cluster_pixels:
-                self.centroids[cluster] = np.mean(cluster_pixels)
+                a = np.mean(cluster_pixels)
+                print cluster_pixels
+                print a
+                self.centroids[cluster] = a"""
+
+        for cluster in range(self.K):
+            cluster_pixel = 0.0
+            num_cluster_pixels = 0.0
+            for pixel in range(len(self.X)):
+                if self.clusters[pixel] == cluster:
+                    cluster_pixel += self.X[pixel]
+                    num_cluster_pixels += 1
+            if num_cluster_pixels > 0:
+                """mean = np.mean(cluster_pixel)
+                print mean"""
+                """mean = cluster_pixel / num_cluster_pixels"""
+                mean = np.divide(cluster_pixel, num_cluster_pixels)
+                self.centroids[cluster] = mean
 
     def _converges(self):  #TODO: falta testejar
         """@brief   Checks if there is a difference between current and old centroids
         """
 
-        converges = True
-        for centroids in zip(self.centroids, self.old_centroids):
-            if np.linalg.norm(centroids[0], centroids[1]) > self.options['tolerance']:
-                converges = False
-        return converges
+        converges = 0
+
+        dist = distance(self.old_centroids, self.centroids)
+        #
+        # converges_arr = dist > self.options['tolerance']
+        # print(converges_arr.all())
+        # if converges_arr.all():
+        #     converges = True
+        # return converges
+
+        for i in dist:
+            for j in i:
+                if j <= self.options['tolerance']:
+                    converges += 1
+        if converges < len(dist):
+            return False
+        return True
 
     def _iterate(self, show_first_time=True):
         """@brief   One iteration of K-Means algorithm. This method should 
