@@ -64,8 +64,13 @@ def similarityMetric(Est, GT, options):
 ##  AND CHANGE FOR YOUR OWN CODE
 #########################################################
     if options['metric'].lower() == 'basic'.lower():
-        import random
-        return random.uniform(0, 1)        
+        success = 0
+        total = 0
+        for label in Est:
+            if label in GT:
+                success += 1
+        total = success/len(GT)
+        return total
     else:
         return 0
         
@@ -78,6 +83,14 @@ def getLabels(kmeans, options):
     @return colors  LIST    colors labels of centroids of kmeans object
     @return ind     LIST    indexes of centroids with the same color label
     """
+
+    colors = []
+    univ_color_names = ['Red', 'Orange', 'Brown', 'Yellow', 'Green', 'Blue', 'Purple', 'Pink', 'Black', 'Grey', 'White']
+    # for centroid in kmeans.centroids:
+    #     cd, res = cn.SampleColorNaming(centroid)
+    #     colors.append(res)
+    # print colors
+
 
 #########################################################
 ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
@@ -110,14 +123,14 @@ def processImage(im, options):
 
 ##  1- CHANGE THE IMAGE TO THE CORRESPONDING COLOR SPACE FOR KMEANS
     if options['colorspace'].lower() == 'ColorNaming'.lower():  
-        pass
+        im = cn.ImColorNamingTSELabDescriptor(im)
     elif options['colorspace'].lower() == 'RGB'.lower():        
-        pass 
-    elif options['colorspace'].lower() == 'Lab'.lower():        
         pass
+    elif options['colorspace'].lower() == 'Lab'.lower():        
+        im = color.rgb2lab(im)
 
 ##  2- APPLY KMEANS ACCORDING TO 'OPTIONS' PARAMETER
-    if options['K']<2: # find the bes K
+    if options['K'] < 2: # find 0the bes K
         kmeans = km.KMeans(im, 0, options)
         kmeans.bestK()
     else:
