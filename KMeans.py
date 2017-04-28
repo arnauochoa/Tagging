@@ -27,6 +27,9 @@ def distance(X, C):
             dist[i, j] = np.linalg.norm(X[i] - C[j])
     return dist
 
+def fisher_discriminant(u, v):
+    return np.divide(abs(np.mean(u) - np.mean(v)), np.var(u) + np.var(v))
+
 class KMeans():
     
     def __init__(self, X, K, options=None):
@@ -229,7 +232,7 @@ class KMeans():
 ##  AND CHANGE FOR YOUR OWN CODE
 #######################################################
         if self.options['fitting'].lower() == 'fisher':
-            return np.random.rand(1)
+            return fisher_discriminant(self.centroids, self.old_centroids)
         else:
             return np.random.rand(1)
 

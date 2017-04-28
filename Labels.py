@@ -85,7 +85,7 @@ def getLabels(kmeans, options):
     """
 
     colors = []
-    univ_color_names = ['Red', 'Orange', 'Brown', 'Yellow', 'Green', 'Blue', 'Purple', 'Pink', 'Black', 'Grey', 'White']
+    #univ_color_names = np.colors
     # for centroid in kmeans.centroids:
     #     cd, res = cn.SampleColorNaming(centroid)
     #     colors.append(res)
@@ -122,12 +122,14 @@ def processImage(im, options):
 #########################################################
 
 ##  1- CHANGE THE IMAGE TO THE CORRESPONDING COLOR SPACE FOR KMEANS
-    if options['colorspace'].lower() == 'ColorNaming'.lower():  
-        im = cn.ImColorNamingTSELabDescriptor(im)
-    elif options['colorspace'].lower() == 'RGB'.lower():        
-        pass
-    elif options['colorspace'].lower() == 'Lab'.lower():        
-        im = color.rgb2lab(im)
+    if options['colorspace'].lower() == 'ColorNaming'.lower():
+        imcn = cn.ImColorNamingTSELabDescriptor(im)
+        im = np.reshape(imcn, (-1, imcn.shape[2]))
+    elif options['colorspace'].lower() == 'RGB'.lower():
+        im = np.reshape(im, (-1, im.shape[2]))
+    elif options['colorspace'].lower() == 'Lab'.lower():
+        imlab = color.rgb2lab(im)
+        im = np.reshape(imlab, (-1, imlab.shape[2]))
 
 ##  2- APPLY KMEANS ACCORDING TO 'OPTIONS' PARAMETER
     if options['K'] < 2: # find 0the bes K
@@ -139,7 +141,8 @@ def processImage(im, options):
 
 ##  3- GET THE NAME LABELS DETECTED ON THE 11 DIMENSIONAL SPACE
     if options['colorspace'].lower() == 'RGB'.lower():        
-        pass     
+        # colors, ind = getLabels(kmeans)
+        pass
 
 #########################################################
 ##  THE FOLLOWING 2 END LINES SHOULD BE KEPT UNMODIFIED
