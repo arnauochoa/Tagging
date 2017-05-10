@@ -214,10 +214,7 @@ class KMeans():
                     information for the best K. NO need to rerun KMeans.
            @return B is the best K found.
         """
-#######################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#######################################################
+
         self._init_rest(4)
         self.run()        
         fit = self.fitting()
@@ -227,13 +224,22 @@ class KMeans():
     def fitting(self):
         """@brief  return a value describing how well the current kmeans fits the data
         """
-#######################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#######################################################
+
         if self.options['fitting'].lower() == 'fisher':
-            return fisher_discriminant(self.centroids, self.old_centroids)
-        else:
+            dividend = 0
+            distances = []
+            for centroid in range(self.K):
+                dist = 0
+                n = 0
+                for pixel in range(self.X):
+                    dist += distance(self.X[pixel], self.centroids[centroid])
+                    n += 1
+                distances[centroid] = dist/n
+            for centroid in range(self.K): #TODO fer-ho amb funcio np
+                dividend += distances[centroid]
+
+            # return fisher_discriminant(self.centroids, self.old_centroids)
+        else: #provar a fer silhouette
             return np.random.rand(1)
 
 
