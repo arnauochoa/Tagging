@@ -59,6 +59,7 @@ class KMeans():
         """
 
         self.X = np.reshape(X, (-1, X.shape[2]))
+        self.num_pix = len(self.X)
 
             
     def _init_options(self, options):
@@ -116,7 +117,7 @@ class KMeans():
         if self.options['km_init'].lower() == 'first':
             self.centroids = self.X[0:self.K]
         else:
-            self.centroids = [self.X[np.random.randint(len(self.X))] for _ in range(self.K)]
+            self.centroids = [self.X[np.random.randint(self.num_pix)] for _ in range(self.K)]
 
     def _cluster_points(self):  #TODO: no tinc clar que sigui aixi
         """@brief   Calculates the closest centroid of all points in X
@@ -147,7 +148,7 @@ class KMeans():
         for cluster in range(self.K):
             cluster_pixel = 0.0
             num_cluster_pixels = 0.0
-            for pixel in range(len(self.X)):
+            for pixel in range(self.num_pix):
                 if self.clusters[pixel] == cluster:
                     cluster_pixel += self.X[pixel]
                     num_cluster_pixels += 1
@@ -220,26 +221,50 @@ class KMeans():
         fit = self.fitting()
         return 4
 
-        
+
+    def get_pix_clust(self, clust):
+        """@brief   Gets all pixels form one cluster
+
+           @param  clust DINT cluster number
+
+           @return NUMPY ARRAY array with all pixels
+        """
+        clust_pix = []
+        for pixel in self.X:
+            if self.clusters[pixel] is clust:
+                clust_pix.append(pixel)
+        return np.array(clust_pix)
+
     def fitting(self):
         """@brief  return a value describing how well the current kmeans fits the data
         """
 
         if self.options['fitting'].lower() == 'fisher':
-            dividend = 0
-            distances = []
+            #calcul mu's
+            mu = np.mean(self.X, axis=0) #fa referencia al centroide mitja?
+            mu_k = []
             for centroid in range(self.K):
-                dist = 0
-                n = 0
-                for pixel in range(self.X):
-                    dist += distance(self.X[pixel], self.centroids[centroid])
-                    n += 1
-                distances[centroid] = dist/n
-            for centroid in range(self.K): #TODO fer-ho amb funcio np
-                dividend += distances[centroid]
+                mu_k[centroid] = np.mean(self.get_pix_clust(centroid))
 
-            # return fisher_discriminant(self.centroids, self.old_centroids)
-        else: #provar a fer silhouette
+            #calcul between variance i within variance
+            bet_var = 0
+            with_var = 0
+            for centroid in range(self.K):
+                bet_var += np.linalg.norm(mu_k[centroid] - mu)
+                clust_pix = self.get_pix_clust(centroid)
+                for pixel in range(len(clust_pix)):
+                    with_var += np.linalg.norm(clust_pix[pixel] - mu_k[centroid])
+            bet_var = bet_var/self.K
+            with_var = with_var/self.K
+
+            #calcul discriminant
+            discriminant = with_var/bet_var
+
+            return discriminant
+
+            #return fisher_discriminant(self.centroids, self.old_centroids)
+
+        else: # TODO provar a fer silhouette
             return np.random.rand(1)
 
 
