@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as axes3d
 from sklearn.decomposition import PCA
 from copy import deepcopy
+from math import sqrt
 
     
 def distance(X, C):
@@ -213,19 +214,27 @@ class KMeans():
                     
                     at the end, self.centroids and self.clusters contains the 
                     information for the best K. NO need to rerun KMeans.
-           @return B is the best K found.
+           @return bestK is the best K found.
         """
 
-        self._init_rest(4)
-        self.run()        
-        fit = self.fitting()
-        return 4
+        fit = np.array([])
+        reps = 10
+        second_der = np.array([])
+
+        for K in range(reps):
+            self._init_rest(4)
+            self.run()
+            fit[K] = self.fitting()
+        for K in range(reps-2):
+            second_der[K] = fit[K+1] + fit[K-1] - 2 * fit[K]
+        bestK = 1 + np.argmax(second_der)
+        return bestK
 
 
     def get_pix_clust(self, clust):
         """@brief   Gets all pixels form one cluster
 
-           @param  clust DINT cluster number
+           @param  clust 89INT cluster number
 
            @return NUMPY ARRAY array with all pixels
         """
@@ -253,7 +262,7 @@ class KMeans():
                 bet_var += np.linalg.norm(mu_k[centroid] - mu)
                 clust_pix = self.get_pix_clust(centroid)
                 for pixel in range(len(clust_pix)):
-                    with_var += np.linalg.norm(clust_pix[pixel] - mu_k[centroid])
+                    with_var += sqrt((clust_pix[pixel] - mu_k[centroid])**2)
             bet_var = bet_var/self.K
             with_var = with_var/self.K
 
