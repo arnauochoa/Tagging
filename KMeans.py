@@ -226,8 +226,8 @@ class KMeans():
             self.run()
             fit[K] = self.fitting()
         for K in range(reps-2):
-            second_der[K] = fit[K+1] + fit[K-1] - 2 * fit[K]
-        bestK = 1 + np.argmax(second_der)
+            second_der[K] = fit[K+1] + fit[K-1] - 2 * fit[K] #segona derivada
+        bestK = 1 + np.argmax(second_der) #k amb valor segona derivada major (major corva)
         return bestK
 
 
