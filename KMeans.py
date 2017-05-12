@@ -204,7 +204,7 @@ class KMeans():
         self._iterate(True)
         self.options['max_iter'] = np.inf
         if self.options['max_iter'] > self.num_iter:
-            while not self._converges() :
+            while not self._converges():
                 self._iterate(False)
 
     def bestK(self):
