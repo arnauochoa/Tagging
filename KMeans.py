@@ -58,8 +58,12 @@ class KMeans():
 
         sets X an as an array of data in vector form (PxD  where P=N*M and D=3 in the above example)
         """
-
-        self.X = np.reshape(X, (-1, X.shape[2]))
+        
+        if X.ndim is 3:
+            self.X = np.reshape(X, (-1, X.shape[2]))
+        else:
+            self.X = X[:]
+        #self.X = np.reshape(X, (-1, X.shape[2]))
         self.num_pix = len(self.X)
 
             
@@ -218,16 +222,21 @@ class KMeans():
         """
 
         fit = np.array([])
-        reps = 10
+        reps = 5
         second_der = np.array([])
 
         for K in range(reps):
+            print "best:"+K
             self._init_rest(4)
             self.run()
             fit[K] = self.fitting()
         for K in range(reps-2):
             second_der[K] = fit[K+1] + fit[K-1] - 2 * fit[K] #segona derivada
+            print "fitK:"
+            print fit[K]
         bestK = 1 + np.argmax(second_der) #k amb valor segona derivada major (major corva)
+        print "bestK:"
+        print bestK
         return bestK
 
 
@@ -239,9 +248,9 @@ class KMeans():
            @return NUMPY ARRAY array with all pixels
         """
         clust_pix = []
-        for pixel in self.X:
+        for pixel in range(len(self.X)):
             if self.clusters[pixel] is clust:
-                clust_pix.append(pixel)
+                clust_pix.append(self.X[pixel])
         return np.array(clust_pix)
 
     def fitting(self):
@@ -253,7 +262,8 @@ class KMeans():
             mu = np.mean(self.X, axis=0) #fa referencia al centroide mitja?
             mu_k = []
             for centroid in range(self.K):
-                mu_k[centroid] = np.mean(self.get_pix_clust(centroid))
+                mu_k.append(np.mean(self.get_pix_clust(centroid)))
+            
 
             #calcul between variance i within variance
             bet_var = 0

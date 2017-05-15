@@ -28,7 +28,7 @@ def loadGT(fileName):
         splitLine = line.split(' ')[:-1]
         labels = [''.join(sorted(filter(None,re.split('([A-Z][^A-Z]*)',l)))) for l in splitLine[1:]]
         groundTruth.append( (splitLine[0], labels) )
-        
+
     return groundTruth
 
 
@@ -44,8 +44,15 @@ def evaluate(description, GT, options):
 ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
 ##  AND CHANGE FOR YOUR OWN CODE
 #########################################################
-    scores = np.random.rand(len(description),1)        
-    return sum(scores)/len(description), scores
+
+
+    scores = []
+    i = 0
+    for gt in GT:
+        scores.append(similarityMetric(description[i], gt[1], options))
+        i += 1
+    suma_scores = sum(scores)
+    return suma_scores/len(description), scores
 
 
 
@@ -56,12 +63,12 @@ def similarityMetric(Est, GT, options):
     @param options DICT  contains options to control metric, ...
     @return S float similarity between label LISTs
     """
-    
+
     if options == None:
         options = {}
     if not 'metric' in options:
         options['metric'] = 'basic'
-        
+
 #########################################################
 ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
 ##  AND CHANGE FOR YOUR OWN CODE
@@ -76,7 +83,7 @@ def similarityMetric(Est, GT, options):
         return total
     else:
         return 0
-        
+
 def getLabels(kmeans, options):
     """@brief   Labels all centroids of kmeans object to their color names
     
@@ -86,8 +93,7 @@ def getLabels(kmeans, options):
     @return colors  LIST    colors labels of centroids of kmeans object
     @return ind     LIST    indexes of centroids with the same color label
     """
-
-    colors = []
+    #colors = []
     #univ_color_names = np.colors
     # for centroid in kmeans.centroids:
     #     cd, res = cn.SampleColorNaming(centroid)
@@ -101,8 +107,63 @@ def getLabels(kmeans, options):
 #########################################################
 ##  remind to create composed labels if the probability of 
 ##  the best color label is less than  options['single_thr']
-    meaningful_colors = ['color'+'%d'%i for i in range(kmeans.K)]
-    unique = range(kmeans.K)
+    #meaningful_colors = ['color'+'%d'%i for i in range(kmeans.K)]
+    #unique = range(kmeans.K)
+    #return meaningful_colors, unique
+
+    meaningful_colors = []
+    unique = []
+
+    sum_centroids=kmeans.centroids.sum(axis=1)
+    if options['colorspace'] == 'RGB':
+        kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
+    elif options['colorspace'] == 'Lab':
+        labcentroids = np.reshape(kmeans.centroids, (-1,1,kmeans.centroids.shape[1]))
+        rgbcentroids = color.lab2rgb(labcentroids) * 255
+        kmeans.centroids = cn.ImColorNamingTSELabDescriptor(rgbcentroids)
+
+    sum_centroids = kmeans.centroids.sum(axis=1)
+    print sum_centroids
+    print
+
+    for i in range(kmeans.centroids.shape[1]):
+        main_value = 0
+        position = 0
+        for j in range(kmeans.centroids.shape[0]):
+            if sum_centroids[i] > 1:
+                kmeans.centroids[i][j] = kmeans.centroids[i][j]/sum_centroids[i]
+            if kmeans.centroids[i][j] > main_value:
+                main_value = kmeans.centroids[i][j]
+                position = j
+        #si el major valor trobat(main_value) es mes gran que el paramentre single_thr fem etiquetes compostes
+        if main_value >= options['single_thr']:
+            #si no esta el color ja a la llista
+            if not cn.colors[position] in meaningful_colors:
+                meaningful_colors.append(cn.colors[position])
+                unique.append([i])
+            #si hi es, afegim index en la posicio corresponent pero no tornem a posar el color a meaningful_colors
+            else:
+                index = meaningful_colors.index(cn.colors[position])
+                unique[index].append(i)
+        else:
+            second_value = 0
+            second_position = 0
+
+            for k in range(kmeans.centroids.shape[1]):
+                if kmeans.centroids[i][k] > second_value and kmeans.centroids[i][k] < main_value:
+                    second_value = kmeans.centroids[i][k]
+                    second_position = k
+            if cn.colors[position] < cn.colors[second_position]:
+                doublecolor = cn.colors[position] + cn.colors[second_position]
+            else:
+                doublecolor = cn.colors[second_position] + cn.colors[position]
+
+            if not doublecolor in meaningful_colors:
+                meaningful_colors.append(doublecolor)
+                unique.append([i])
+            else:
+                index = meaningful_colors.index(doublecolor)
+                unique[index].append(i)
     return meaningful_colors, unique
 
 
@@ -128,27 +189,33 @@ def processImage(im, options):
     if options['colorspace'].lower() == 'ColorNaming'.lower():
         imcn = cn.ImColorNamingTSELabDescriptor(im)
         im = np.reshape(imcn, (-1, imcn.shape[2]))
+        print "1"
+        print im
     elif options['colorspace'].lower() == 'RGB'.lower():
         im = np.reshape(im, (-1, im.shape[2]))
+        print "2"
+        print im
     elif options['colorspace'].lower() == 'Lab'.lower():
         imlab = color.rgb2lab(im)
         im = np.reshape(imlab, (-1, imlab.shape[2]))
-
+        print "3"
+        print im
 ##  2- APPLY KMEANS ACCORDING TO 'OPTIONS' PARAMETER
     if options['K'] < 2: # find 0the bes K
+        print("hola")
         kmeans = km.KMeans(im, 0, options)
         kmeans.bestK()
     else:
-        kmeans = km.KMeans(im, options['K'], options) 
-        kmeans.run()
+        print("hola2")
+        kmeans = km.KMeans(im, options['K'], options)
 
 ##  3- GET THE NAME LABELS DETECTED ON THE 11 DIMENSIONAL SPACE
-    if options['colorspace'].lower() == 'RGB'.lower():        
-        # colors, ind = getLabels(kmeans)
-        pass
+    if options['colorspace'].lower() == 'RGB'.lower():
+        colors, ind = getLabels(kmeans,options)
+        #pass
 
 #########################################################
 ##  THE FOLLOWING 2 END LINES SHOULD BE KEPT UNMODIFIED
 #########################################################
-    colors, which = getLabels(kmeans, options)   
+    colors, which = getLabels(kmeans, options)
     return colors, which, kmeans
