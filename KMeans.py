@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as axes3d
 from sklearn.decomposition import PCA
 from copy import deepcopy
+from math import sqrt
 
     
 def distance(X, C):
@@ -20,11 +21,15 @@ def distance(X, C):
     i-th point of the first set an the j-th point of the second set
     """
 
-    dist = np.empty((len(X), len(C)))
+    dist = np.ndarray((len(X), len(C)))
+
     for i in range(len(X)):
         for j in range(len(C)):
-            dist[i][j] = np.linalg.norm(X[i] - C[j])
-            return dist
+            dist[i, j] = np.linalg.norm(X[i] - C[j])
+    return dist
+
+def fisher_discriminant(u, v):
+    return np.divide(abs(np.mean(u) - np.mean(v)), np.var(u) + np.var(v))
 
 class KMeans():
     
@@ -53,17 +58,22 @@ class KMeans():
 
         sets X an as an array of data in vector form (PxD  where P=N*M and D=3 in the above example)
         """
-
-        self.X = np.reshape(X, (-1, X.shape[2]))
+        
+        if X.ndim is 3:
+            self.X = np.reshape(X, (-1, X.shape[2]))
+        else:
+            self.X = X[:]
+        #self.X = np.reshape(X, (-1, X.shape[2]))
+        self.num_pix = len(self.X)
 
             
     def _init_options(self, options):
         """@brief Initialization of options in case some fields are left undefined
         
         @param  options DICT dctionary with options
-
-			sets de options parameters
+        sets de options parameters
         """
+
         if options == None:
             options = {}
         if not 'km_init' in options:
@@ -90,7 +100,7 @@ class KMeans():
         @param  options DICT dctionary with options
         """
         self.K = K                                             # INT number of clusters
-        if self.K>0:
+        if self.K > 0:
             self._init_centroids()                             # LIST centroids coordinates
             self.old_centroids = np.empty_like(self.centroids) # LIST coordinates of centroids from previous iteration
             self.clusters = np.zeros(len(self.X))              # LIST list that assignes each element of X into a cluster
@@ -101,7 +111,6 @@ class KMeans():
 ##  THIS FUNCTION CAN BE MODIFIED FROM THIS POINT, if needed
 #############################################################
 
-
     def _init_centroids(self):
         """@brief Initialization of centroids
         depends on self.options['km_init']
@@ -109,73 +118,88 @@ class KMeans():
 
         #TODO: com comprovar que no son iguals?
 
-        self.centroids = []
+        self.centroids = np.empty(self.K)
         if self.options['km_init'].lower() == 'first':
-            for index in range(0, self.K):
-                self.centroids.append(self.X[index])
+            self.centroids = self.X[0:self.K]
+        else:
+            self.centroids = [self.X[np.random.randint(self.num_pix)] for _ in range(self.K)]
 
-            # ==== per a que no siguin iguals ====
-            # num_centroids = 0
-            # index = 0
-            # while num_centroids < self.K:
-            #     pixel = self.X[index]
-            #     if pixel not in self.centroids:
-            #         self.centroids.append(pixel)
-            #         num_centroids += 1
-            #     index += 1
-
-        elif self.options['km_init'].lower() == 'random':
-            for n in range(0, self.K):
-                index = np.random.randint(0, len(self.X))
-                self.centroids.append(self.X[index])
-
-            # ==== per a que no siguin iguals ====
-            # num_centroids = 0
-            # index = 0
-            # while num_centroids < self.K:
-            #     pixel = self.X[index]
-            #     if pixel not in self.centroids:
-            #         self.centroids.append(pixel)
-            #         num_centroids += 1
-            #     index = np.random.randint(0, self.X.__len__())
-
-        
     def _cluster_points(self):  #TODO: no tinc clar que sigui aixi
         """@brief   Calculates the closest centroid of all points in X
         """
 
-        distances = distance(self.X, self.centroids)
-        for pixel_index in range(0, len(self.X)):
-            self.clusters[pixel_index] = np.argmin(distances[pixel_index])
+        self.clusters = np.argmin(distance(self.X, self.centroids), axis=1)
 
-        
     def _get_centroids(self): #TODO: falta testejar
         """@brief   Calculates coordinates of centroids based on the coordinates 
                     of all the points assigned to the centroid
         """
 
-        self.old_centroids = deepcopy(self.centroids)
+        """self.old_centroids = deepcopy(self.centroids)"""
 
-        for cluster in range(0, self.K):
-            cluster_pixels = []
-            for pixel in range(0, len(self.X)):
+        self.old_centroids = np.array(self.centroids, copy=True)
+
+        """for cluster in range(self.K):
+            cluster_pixels = np.array([])
+            for pixel in range(len(self.X)):
                 if self.clusters[pixel] == cluster:
-                    cluster_pixels.append(self.X[pixel])
+                    np.append(cluster_pixels, self.X[pixel])
             if cluster_pixels:
-                self.centroids[cluster] = np.mean(cluster_pixels, axis=0)
-                
+                a = np.mean(cluster_pixels)
+                print cluster_pixels
+                print a
+                self.centroids[cluster] = a"""
+
+        for cluster in range(self.K):
+            cluster_pixel = 0.0
+            num_cluster_pixels = 0.0
+            for pixel in range(self.num_pix):
+                if self.clusters[pixel] == cluster:
+                    cluster_pixel += self.X[pixel]
+                    num_cluster_pixels += 1
+            if num_cluster_pixels > 0:
+                """mean = np.mean(cluster_pixel)
+                print mean"""
+                """mean = cluster_pixel / num_cluster_pixels"""
+                mean = np.divide(cluster_pixel, num_cluster_pixels)
+                self.centroids[cluster] = mean
 
     def _converges(self):  #TODO: falta testejar
         """@brief   Checks if there is a difference between current and old centroids
         """
 
         converges = True
-        for centroids in zip(self.centroids, self.old_centroids):
-            if np.linalg.norm(centroids[0], centroids[1]) > self.options['tolerance']:
+
+        dist = []
+
+        for centroid in range(self.K):
+            dist.append(np.linalg.norm(self.centroids[centroid]-self.old_centroids[centroid]))
+
+        dist = np.array(dist)
+
+        # converges_arr = (dist > self.options['tolerance'])
+
+        # print 'tolerance: ', self.options['tolerance']
+        # print 'dist', dist
+
+        for d in dist:
+            if d > self.options['tolerance']:
                 converges = False
         return converges
 
-        
+        # print ('converges: ', converges_arr.all())
+        # if converges_arr.all():
+        #     converges = True
+
+        # for i in dist:
+        #     for j in i:
+        #         if j <= self.options['tolerance']:
+        #             converges += 1
+        # if converges < len(dist):
+        #     return False
+        # return True
+
+
     def _iterate(self, show_first_time=True):
         """@brief   One iteration of K-Means algorithm. This method should 
                     reassigne all the points from X to their closest centroids
@@ -186,7 +210,6 @@ class KMeans():
         self._get_centroids()
         if self.options['verbose']:
             self.plot(show_first_time)
-
 
     def run(self):
         """@brief   Runs K-Means algorithm until it converges or until the number
@@ -199,10 +222,9 @@ class KMeans():
         self._iterate(True)
         self.options['max_iter'] = np.inf
         if self.options['max_iter'] > self.num_iter:
-            while not self._converges() :
+            while not self._converges():
                 self._iterate(False)
-      
-      
+
     def bestK(self):
         """@brief   Runs K-Means multiple times to find the best K for the current 
                     data given the 'fitting' method. In cas of Fisher elbow method 
@@ -210,28 +232,72 @@ class KMeans():
                     
                     at the end, self.centroids and self.clusters contains the 
                     information for the best K. NO need to rerun KMeans.
-           @return B is the best K found.
+           @return bestK is the best K found.
         """
-#######################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#######################################################
-        self._init_rest(4)
-        self.run()        
-        fit = self.fitting()
-        return 4
 
-        
+        fit = np.array([])
+        reps = 5
+        second_der = np.array([])
+
+        for K in range(reps):
+            print "best:"+K
+            self._init_rest(4)
+            self.run()
+            fit[K] = self.fitting()
+        for K in range(reps-2):
+            second_der[K] = fit[K+1] + fit[K-1] - 2 * fit[K] #segona derivada
+            print "fitK:"
+            print fit[K]
+        bestK = 1 + np.argmax(second_der) #k amb valor segona derivada major (major corva)
+        print "bestK:"
+        print bestK
+        return bestK
+
+
+    def get_pix_clust(self, clust):
+        """@brief   Gets all pixels form one cluster
+
+           @param  clust 89INT cluster number
+
+           @return NUMPY ARRAY array with all pixels
+        """
+        clust_pix = []
+        for pixel in range(len(self.X)):
+            if self.clusters[pixel] is clust:
+                clust_pix.append(self.X[pixel])
+        return np.array(clust_pix)
+
     def fitting(self):
         """@brief  return a value describing how well the current kmeans fits the data
         """
-#######################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#######################################################
+
         if self.options['fitting'].lower() == 'fisher':
-            return np.random.rand(1)
-        else:
+            #calcul mu's
+            mu = np.mean(self.X, axis=0) #fa referencia al centroide mitja?
+            mu_k = []
+            for centroid in range(self.K):
+                mu_k.append(np.mean(self.get_pix_clust(centroid)))
+            
+
+            #calcul between variance i within variance
+            bet_var = 0
+            with_var = 0
+            for centroid in range(self.K):
+                bet_var += np.linalg.norm(mu_k[centroid] - mu)
+                clust_pix = self.get_pix_clust(centroid)
+                for pixel in range(len(clust_pix)):
+                    with_var += sqrt((clust_pix[pixel] - mu_k[centroid])**2)
+            bet_var = bet_var/self.K
+            with_var = with_var/self.K
+
+            #calcul discriminant
+            discriminant = with_var/bet_var
+
+            return discriminant
+
+            #return fisher_discriminant(self.centroids, self.old_centroids)
+
+        else: # TODO provar a fer silhouette
             return np.random.rand(1)
 
 

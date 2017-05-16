@@ -8,9 +8,10 @@ import json
 from skimage import io
 from skimage.transform import rescale
 import numpy as np
+import ColorNaming as cn
 
 import os.path
-if os.path.isfile('TeachersLabels.py'): 
+if os.path.isfile('TeachersLabels.py') and True: 
     student = False
     import TeachersLabels as lb
     import TeachersKMeans as km
@@ -19,7 +20,7 @@ else:
     import Labels as lb
     import KMeans as km
 
-
+student=True
 TestFolder = 'Test/'
 ImageFolder = 'Images/'
 if not os.path.isdir(TestFolder):
@@ -58,11 +59,17 @@ def CheckTest(Message, D, File, student):
     if student:
         with open(File) as infile:
             DT = json.load(infile)
-        if type(D) != type(DT):
-            DT = np.array(DT)
-            same = (D==DT).all()
-        else:
-            same = (D==DT)
+        try:
+            if type(D) is list:
+                same = (D==DT)
+            else:
+                if type(D) is float:
+                    D = np.array(D)
+                DT = np.array(DT)
+#                same = (D==DT).all()
+                same = np.allclose(D,DT,rtol=0.0001,atol=0)
+        except:
+            pass
             
         PrintTestResult(Message, D, DT, same)
     else:
@@ -160,6 +167,9 @@ def TestSolution(Test, Options, GTFile, NImage):
     k_m = km.KMeans(im, Options['K'], Options)
     k_m.run()
     Options['single_thr']=0
+
+    if k_m.centroids.shape[1]==3:
+        k_m.centroids = cn.ImColorNamingTSELabDescriptor(k_m.centroids) 
     lab,_ = lb.getLabels(k_m, Options)
     Results.append(CheckTest(Message, lab, File, student))
     Messages.append(Message)
@@ -167,12 +177,15 @@ def TestSolution(Test, Options, GTFile, NImage):
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
-    Message = '-7 testing color labels extraction (compund labels)'
+    Message = '-7 testing color labels extraction (compound labels)'
     File = TestFolder + '%02d'%Test + Message + '.txt'
     
     k_m = km.KMeans(im, Options['K'], Options)
     k_m.run()
     Options['single_thr']=1
+
+    if k_m.centroids.shape[1]==3:
+        k_m.centroids = cn.ImColorNamingTSELabDescriptor(k_m.centroids) 
     lab,_ = lb.getLabels(k_m, Options)
     Results.append(CheckTest(Message, lab, File, student))
     Messages.append(Message)
@@ -186,6 +199,9 @@ def TestSolution(Test, Options, GTFile, NImage):
     k_m = km.KMeans(im, Options['K'], Options)
     k_m.run()
     Options['single_thr']=0.6
+    
+    if k_m.centroids.shape[1]==3:
+        k_m.centroids = cn.ImColorNamingTSELabDescriptor(k_m.centroids) 
     lab,_ = lb.getLabels(k_m, Options)
     Results.append(CheckTest(Message, lab, File, student))
     Messages.append(Message)
@@ -193,7 +209,18 @@ def TestSolution(Test, Options, GTFile, NImage):
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
-    Message = '-9 testing similarity metric 100'
+    Message = '-9 testing process image function'
+    File = TestFolder + '%02d'%Test + Message + '.txt'
+    Options['single_thr'] /= 10
+    
+    lab,ind,k_m = lb.processImage(im, Options)
+    Results.append(CheckTest(Message, lab, File, student))
+    Messages.append(Message)
+
+    ######################################################################################################
+    ######################################################################################################
+    ######################################################################################################
+    Message = '-10 testing similarity metric 100'
     File = TestFolder + '%02d'%Test + Message + '.txt'
     
     import random
@@ -207,7 +234,7 @@ def TestSolution(Test, Options, GTFile, NImage):
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
-    Message = '-10 testing similarity metric 2'
+    Message = '-11 testing similarity metric 2'
     File = TestFolder + '%02d'%Test + Message + '.txt'
     
     import random
@@ -223,11 +250,34 @@ def TestSolution(Test, Options, GTFile, NImage):
         for i in range(len(Messages)):
             print Messages[i] + "    " + ("OK" if Results[i] else "FAIL")
         print "\n\n"
+        return sum(Results),len(Results)
+    return 0,0
 
 ######################################################################################################
 GTFile = 'LABELSlarge.txt'
 Options = {'colorspace':'RGB', 'K':6, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
-TestSolution(1, Options, GTFile, 1)
-TestSolution(2, Options, GTFile, 23)
+score=[]
+score.append(TestSolution(1, Options, GTFile, 1))
+score.append(TestSolution(2, Options, GTFile, 23))
 Options = {'colorspace':'ColorNaming', 'K':3, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
-TestSolution(3, Options, GTFile, 43)
+score.append(TestSolution(3, Options, GTFile, 43))
+
+Options = {'colorspace':'Lab', 'K':3, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
+score.append(TestSolution(4, Options, GTFile, 43))
+
+Options = {'colorspace':'HSV', 'K':3, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
+score.append(TestSolution(5, Options, GTFile, 43))
+
+GT = lb.loadGT(ImageFolder + GTFile)
+im = io.imread(ImageFolder + GT[0][0])
+im = rescale(im, 0.5, preserve_range=True)
+
+Final = sum([x[0] for x in score])
+Over =  sum([x[1] for x in score])
+
+print "NIUs: ",lb.NIUs()
+print "Final Score: %d / %d"%(Final,Over)
+
+Options = {'colorspace':'HSV', 'K':0, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
+lab,ind,k_m = lb.processImage(im, Options)
+print lab
