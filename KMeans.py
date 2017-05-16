@@ -168,23 +168,36 @@ class KMeans():
         """@brief   Checks if there is a difference between current and old centroids
         """
 
-        converges = 0
+        converges = True
 
-        dist = distance(self.old_centroids, self.centroids)
-        #
-        # converges_arr = dist > self.options['tolerance']
-        # print(converges_arr.all())
+        dist = []
+
+        for centroid in range(self.K):
+            dist.append(np.linalg.norm(self.centroids[centroid]-self.old_centroids[centroid]))
+
+        dist = np.array(dist)
+
+        # converges_arr = (dist > self.options['tolerance'])
+
+        # print 'tolerance: ', self.options['tolerance']
+        # print 'dist', dist
+
+        for d in dist:
+            if d > self.options['tolerance']:
+                converges = False
+        return converges
+
+        # print ('converges: ', converges_arr.all())
         # if converges_arr.all():
         #     converges = True
-        # return converges
 
-        for i in dist:
-            for j in i:
-                if j <= self.options['tolerance']:
-                    converges += 1
-        if converges < len(dist):
-            return False
-        return True
+        # for i in dist:
+        #     for j in i:
+        #         if j <= self.options['tolerance']:
+        #             converges += 1
+        # if converges < len(dist):
+        #     return False
+        # return True
 
 
     def _iterate(self, show_first_time=True):
