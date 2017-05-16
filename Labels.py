@@ -114,22 +114,20 @@ def getLabels(kmeans, options):
     meaningful_colors = []
     unique = []
 
-    sum_centroids=kmeans.centroids.sum(axis=1)
     if options['colorspace'] == 'RGB':
         kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
     elif options['colorspace'] == 'Lab':
         labcentroids = np.reshape(kmeans.centroids, (-1,1,kmeans.centroids.shape[1]))
+        print 'labcentroids ====' + str(labcentroids)
         rgbcentroids = color.lab2rgb(labcentroids) * 255
         kmeans.centroids = cn.ImColorNamingTSELabDescriptor(rgbcentroids)
 
     sum_centroids = kmeans.centroids.sum(axis=1)
-    print sum_centroids
-    print
 
-    for i in range(kmeans.centroids.shape[1]):
+    for i in range(kmeans.centroids.shape[0]):
         main_value = 0
         position = 0
-        for j in range(kmeans.centroids.shape[0]):
+        for j in range(kmeans.centroids.shape[1]):
             if sum_centroids[i] > 1:
                 kmeans.centroids[i][j] = kmeans.centroids[i][j]/sum_centroids[i]
             if kmeans.centroids[i][j] > main_value:
@@ -140,11 +138,15 @@ def getLabels(kmeans, options):
             #si no esta el color ja a la llista
             if not cn.colors[position] in meaningful_colors:
                 meaningful_colors.append(cn.colors[position])
+                print 'meaningful_colors:' + str(i) + '===' + str(meaningful_colors)
                 unique.append([i])
+                #print 'unique:' + str(i) + '===' + str(unique)
             #si hi es, afegim index en la posicio corresponent pero no tornem a posar el color a meaningful_colors
             else:
                 index = meaningful_colors.index(cn.colors[position])
                 unique[index].append(i)
+                #print 'uniquelse:' + str(i) + '===' + str(unique)
+
         else:
             second_value = 0
             second_position = 0
@@ -160,10 +162,15 @@ def getLabels(kmeans, options):
 
             if not doublecolor in meaningful_colors:
                 meaningful_colors.append(doublecolor)
+                print 'meaningful_colors_double:' + str(i) + '===' + str(meaningful_colors)
                 unique.append([i])
+                #print 'unique_double:' + str(i) + '===' + str(unique)
+
             else:
                 index = meaningful_colors.index(doublecolor)
                 unique[index].append(i)
+                #print 'uniquelse_double:' + str(i) + '===' + str(unique)
+
     return meaningful_colors, unique
 
 
@@ -189,24 +196,16 @@ def processImage(im, options):
     if options['colorspace'].lower() == 'ColorNaming'.lower():
         imcn = cn.ImColorNamingTSELabDescriptor(im)
         im = np.reshape(imcn, (-1, imcn.shape[2]))
-        print "1"
-        print im
     elif options['colorspace'].lower() == 'RGB'.lower():
         im = np.reshape(im, (-1, im.shape[2]))
-        print "2"
-        print im
     elif options['colorspace'].lower() == 'Lab'.lower():
         imlab = color.rgb2lab(im)
         im = np.reshape(imlab, (-1, imlab.shape[2]))
-        print "3"
-        print im
 ##  2- APPLY KMEANS ACCORDING TO 'OPTIONS' PARAMETER
     if options['K'] < 2: # find 0the bes K
-        print("hola")
         kmeans = km.KMeans(im, 0, options)
         kmeans.bestK()
     else:
-        print("hola2")
         kmeans = km.KMeans(im, options['K'], options)
 
 ##  3- GET THE NAME LABELS DETECTED ON THE 11 DIMENSIONAL SPACE

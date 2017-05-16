@@ -186,6 +186,7 @@ class KMeans():
             return False
         return True
 
+
     def _iterate(self, show_first_time=True):
         """@brief   One iteration of K-Means algorithm. This method should 
                     reassigne all the points from X to their closest centroids

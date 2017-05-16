@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca200408-19fd-4343-8cb8-0fb3018191f8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Tagging1617.iml" afterPath="$PROJECT_DIR$/.idea/Tagging1617.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/KMeans.py" afterPath="$PROJECT_DIR$/KMeans.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Labels.py" afterPath="$PROJECT_DIR$/Labels.py" />
     </list>
@@ -18,7 +15,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Tagging1617$Test.coverage" NAME="Test Coverage Results" MODIFIED="1492856536988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Tagging1617$Test64.coverage" NAME="Test64 Coverage Results" MODIFIED="1494531905825" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Tagging$Unittests_in_Test_py.coverage" NAME="Unittests in Test.py Coverage Results" MODIFIED="1494880485315" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Tagging$Unittests_in_Test_py.coverage" NAME="Unittests in Test.py Coverage Results" MODIFIED="1494925077159" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Tagging$KMeansTest.coverage" NAME="KMeansTest Coverage Results" MODIFIED="1494880202185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Tagging1617$KMeansTest.coverage" NAME="KMeansTest Coverage Results" MODIFIED="1493407440796" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Tagging$Test64.coverage" NAME="Test64 Coverage Results" MODIFIED="1494880187792" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -32,7 +29,7 @@
       <file leaf-file-name="ColorNaming.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ColorNaming.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3570">
+            <state relative-caret-position="-2973">
               <caret line="239" column="4" lean-forward="false" selection-start-line="239" selection-start-column="4" selection-end-line="239" selection-end-column="4" />
               <folding />
             </state>
@@ -42,8 +39,8 @@
       <file leaf-file-name="Test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
+            <state relative-caret-position="237">
+              <caret line="57" column="12" lean-forward="true" selection-start-line="57" selection-start-column="12" selection-end-line="57" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -62,11 +59,12 @@
       <file leaf-file-name="KMeans.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/KMeans.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="25" lean-forward="false" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+            <state relative-caret-position="312">
+              <caret line="186" column="0" lean-forward="false" selection-start-line="186" selection-start-column="0" selection-end-line="186" selection-end-column="0" />
               <folding>
-                <marker date="1494878435000" expanded="true" signature="7740:8219" ph="..." />
-                <marker date="1494878435000" expanded="true" signature="9542:10203" ph="..." />
+                <element signature="e#33#51#0" expanded="true" />
+                <marker date="1494923668000" expanded="true" signature="7741:8220" ph="..." />
+                <marker date="1494923668000" expanded="true" signature="9543:10204" ph="..." />
               </folding>
             </state>
           </provider>
@@ -75,13 +73,23 @@
       <file leaf-file-name="Labels.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Labels.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="120" column="22" lean-forward="false" selection-start-line="120" selection-start-column="22" selection-end-line="120" selection-end-column="22" />
+            <state relative-caret-position="75">
+              <caret line="120" column="53" lean-forward="false" selection-start-line="120" selection-start-column="53" selection-end-line="120" selection-end-column="53" />
               <folding>
                 <element signature="e#56#65#0" expanded="true" />
-                <marker date="1494880684000" expanded="true" signature="2691:3054" ph="..." />
-                <marker date="1494880684000" expanded="true" signature="7912:7916" ph="..." />
+                <marker date="1494925077000" expanded="true" signature="2691:3054" ph="..." />
+                <marker date="1494925077000" expanded="true" signature="8191:8195" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="colorconv.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Python/2.7/lib/python/site-packages/skimage/color/colorconv.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="114">
+              <caret line="1037" column="4" lean-forward="false" selection-start-line="1037" selection-start-column="4" selection-end-line="1037" selection-end-column="4" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -156,9 +164,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="22" />
     <option name="width" value="1280" />
-    <option name="height" value="717" />
+    <option name="height" value="800" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -199,6 +206,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="js.eslint.eslintPackage" value="" />
+    <property name="FullScreen" value="true" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -520,10 +528,34 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_in_Test_py - 2017.05.15 at 22h 30m 20s.xml">
+    <history-entry file="Unittests_in_Test_py - 2017.05.16 at 09h 46m 14s.xml">
       <configuration name="Unittests in Test.py" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_in_Test_py - 2017.05.15 at 22h 36m 51s.xml">
+    <history-entry file="Unittests_in_Test_py - 2017.05.16 at 09h 50m 26s.xml">
+      <configuration name="Unittests in Test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_Test_py - 2017.05.16 at 10h 03m 37s.xml">
+      <configuration name="Unittests in Test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_Test_py - 2017.05.16 at 10h 07m 54s.xml">
+      <configuration name="Unittests in Test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_Test_py - 2017.05.16 at 10h 15m 52s.xml">
+      <configuration name="Unittests in Test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_Test_py - 2017.05.16 at 10h 22m 24s.xml">
+      <configuration name="Unittests in Test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_Test_py - 2017.05.16 at 10h 33m 18s.xml">
+      <configuration name="Unittests in Test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_Test_py - 2017.05.16 at 10h 34m 39s.xml">
+      <configuration name="Unittests in Test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_Test_py - 2017.05.16 at 10h 56m 53s.xml">
+      <configuration name="Unittests in Test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_Test_py - 2017.05.16 at 10h 59m 43s.xml">
       <configuration name="Unittests in Test.py" configurationId="tests" />
     </history-entry>
   </component>
@@ -537,19 +569,18 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1280" height="717" extended-state="1" />
-    <editor active="true" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1292407" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20294599" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46027398" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2384" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28477904" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3931507" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -608,13 +639,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/KMeans.py</url>
-          <line>135</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -622,24 +646,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="19" />
+      <option name="time" value="31" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Test64.py" />
-    <entry file="file://$PROJECT_DIR$/Labels.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1430">
-          <caret line="69" column="27" lean-forward="true" selection-start-line="69" selection-start-column="27" selection-end-line="69" selection-end-column="27" />
-          <folding>
-            <element signature="e#56#65#0" expanded="true" />
-            <marker date="1494880684000" expanded="true" signature="2691:3054" ph="..." />
-            <marker date="1494880684000" expanded="true" signature="7912:7916" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/KMeansTest.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -687,8 +698,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1494878435000" expanded="true" signature="7740:8219" ph="..." />
-            <marker date="1494878435000" expanded="true" signature="9542:10203" ph="..." />
+            <element signature="e#33#51#0" expanded="true" />
+            <marker date="1494923668000" expanded="true" signature="7741:8220" ph="..." />
+            <marker date="1494923668000" expanded="true" signature="9543:10204" ph="..." />
           </folding>
         </state>
       </provider>
@@ -700,8 +712,8 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#56#65#0" expanded="true" />
-            <marker date="1494880684000" expanded="true" signature="2691:3054" ph="..." />
-            <marker date="1494880684000" expanded="true" signature="7912:7916" ph="..." />
+            <marker date="1494925077000" expanded="true" signature="2691:3054" ph="..." />
+            <marker date="1494925077000" expanded="true" signature="8191:8195" ph="..." />
           </folding>
         </state>
       </provider>
@@ -753,8 +765,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1494878435000" expanded="true" signature="7740:8219" ph="..." />
-            <marker date="1494878435000" expanded="true" signature="9542:10203" ph="..." />
+            <element signature="e#33#51#0" expanded="true" />
+            <marker date="1494923668000" expanded="true" signature="7741:8220" ph="..." />
+            <marker date="1494923668000" expanded="true" signature="9543:10204" ph="..." />
           </folding>
         </state>
       </provider>
@@ -806,8 +819,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1494878435000" expanded="true" signature="7740:8219" ph="..." />
-            <marker date="1494878435000" expanded="true" signature="9542:10203" ph="..." />
+            <element signature="e#33#51#0" expanded="true" />
+            <marker date="1494923668000" expanded="true" signature="7741:8220" ph="..." />
+            <marker date="1494923668000" expanded="true" signature="9543:10204" ph="..." />
           </folding>
         </state>
       </provider>
@@ -859,8 +873,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1494878435000" expanded="true" signature="7740:8219" ph="..." />
-            <marker date="1494878435000" expanded="true" signature="9542:10203" ph="..." />
+            <element signature="e#33#51#0" expanded="true" />
+            <marker date="1494923668000" expanded="true" signature="7741:8220" ph="..." />
+            <marker date="1494923668000" expanded="true" signature="9543:10204" ph="..." />
           </folding>
         </state>
       </provider>
@@ -919,8 +934,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1494878435000" expanded="true" signature="7740:8219" ph="..." />
-            <marker date="1494878435000" expanded="true" signature="9542:10203" ph="..." />
+            <element signature="e#33#51#0" expanded="true" />
+            <marker date="1494923668000" expanded="true" signature="7741:8220" ph="..." />
+            <marker date="1494923668000" expanded="true" signature="9543:10204" ph="..." />
           </folding>
         </state>
       </provider>
@@ -998,14 +1014,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ColorNaming.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3570">
-          <caret line="239" column="4" lean-forward="false" selection-start-line="239" selection-start-column="4" selection-end-line="239" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/KMeansTest.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1018,31 +1026,58 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/KMeans.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="25" lean-forward="false" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+        <state relative-caret-position="312">
+          <caret line="186" column="0" lean-forward="false" selection-start-line="186" selection-start-column="0" selection-end-line="186" selection-end-column="0" />
           <folding>
-            <marker date="1494878435000" expanded="true" signature="7740:8219" ph="..." />
-            <marker date="1494878435000" expanded="true" signature="9542:10203" ph="..." />
+            <element signature="e#33#51#0" expanded="true" />
+            <marker date="1494923668000" expanded="true" signature="7741:8220" ph="..." />
+            <marker date="1494923668000" expanded="true" signature="9543:10204" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ColorNaming.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2973">
+          <caret line="239" column="4" lean-forward="false" selection-start-line="239" selection-start-column="4" selection-end-line="239" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Python/2.7/lib/python/site-packages/skimage/color/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-861">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#2052#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Python/2.7/lib/python/site-packages/skimage/color/colorconv.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="1037" column="4" lean-forward="false" selection-start-line="1037" selection-start-column="4" selection-end-line="1037" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
+        <state relative-caret-position="237">
+          <caret line="57" column="12" lean-forward="true" selection-start-line="57" selection-start-column="12" selection-end-line="57" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Labels.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="120" column="22" lean-forward="false" selection-start-line="120" selection-start-column="22" selection-end-line="120" selection-end-column="22" />
+        <state relative-caret-position="75">
+          <caret line="120" column="53" lean-forward="false" selection-start-line="120" selection-start-column="53" selection-end-line="120" selection-end-column="53" />
           <folding>
             <element signature="e#56#65#0" expanded="true" />
-            <marker date="1494880684000" expanded="true" signature="2691:3054" ph="..." />
-            <marker date="1494880684000" expanded="true" signature="7912:7916" ph="..." />
+            <marker date="1494925077000" expanded="true" signature="2691:3054" ph="..." />
+            <marker date="1494925077000" expanded="true" signature="8191:8195" ph="..." />
           </folding>
         </state>
       </provider>
