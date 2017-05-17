@@ -6,6 +6,8 @@
 
 from skimage import io
 from skimage.transform import rescale
+from skimage import color
+import ColorNaming as cn
 import numpy as np
 import matplotlib.pyplot as plt
 import time
@@ -16,7 +18,22 @@ import KMeans as km
 plt.close("all")
 if __name__ == "__main__":
     im = io.imread('Images/0065.jpg')
-    #im = rescale(im, 0.4, preserve_range=True)
+    # im = rescale(im, 0.4, preserve_range=True)
+
+    # === ex8 ===
+    # im = color.rgb2lab(im)
+    # print '--> Valor pixel: '
+    # print im[41][31]
+    # print '===================='
+
+    # === ex9 ===
+    im = cn.ImColorNamingTSELabDescriptor(im)
+    print '--> Valor pixel: '
+    print im[17][65]
+    print '===================='
+
+
+
     plt.figure(1)
     plt.imshow(im/255)
     plt.axis('off')
@@ -27,8 +44,9 @@ if __name__ == "__main__":
     #for k in range(1,13):
     k = 3
     plt.figure(3)
-    #options = {'verbose':True, 'km_init': 'first'}
-    options = {'verbose':True, 'km_init': 'custom'}
+    options = {'verbose':True, 'km_init': 'first'}
+    #=== ex7 ===
+    #options = {'verbose':True, 'km_init': 'custom'}
 
     k_m = km.KMeans(X, k, options)
     t = time.time()
