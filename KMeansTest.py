@@ -27,7 +27,7 @@ if __name__ == "__main__":
     # print '===================='
 
     # === ex9 ===
-    im = cn.ImColorNamingTSELabDescriptor(im)
+    # im = cn.ImColorNamingTSELabDescriptor(im)
     print '--> Valor pixel: '
     print im[17][65]
     print '===================='
