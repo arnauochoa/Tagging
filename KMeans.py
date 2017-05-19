@@ -40,7 +40,6 @@ class KMeans():
         @param  K   INT     number of centroids
         @param  options DICT dctionary with options
         """
-
         self._init_X(X)                                    # LIST data coordinates
         self._init_options(options)                        # DICT options
         self._init_rest(K)                                 # Initializes de rest of the object
@@ -242,7 +241,7 @@ class KMeans():
         """
 
         fit = np.array([])
-        reps = 5
+        reps = 1
         second_der = np.array([])
 
         for K in range(reps):
