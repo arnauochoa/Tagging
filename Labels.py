@@ -114,13 +114,13 @@ def getLabels(kmeans, options):
     meaningful_colors = []
     unique = []
 
-    if options['colorspace'] == 'RGB':
-        kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
-    elif options['colorspace'] == 'Lab':
-        labcentroids = np.reshape(kmeans.centroids, (-1,1,kmeans.centroids.shape[1]))
-        print 'labcentroids ====' + str(labcentroids)
-        rgbcentroids = color.lab2rgb(labcentroids) * 255
-        kmeans.centroids = cn.ImColorNamingTSELabDescriptor(rgbcentroids)
+    # if options['colorspace'] == 'RGB':
+    #     kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
+    # elif options['colorspace'] == 'Lab':
+    #     labcentroids = np.reshape(kmeans.centroids, (-1,1,kmeans.centroids.shape[1]))
+    #     print 'labcentroids ====' + str(labcentroids)
+    #     rgbcentroids = color.lab2rgb(labcentroids) * 255
+    #     kmeans.centroids = cn.ImColorNamingTSELabDescriptor(rgbcentroids)
 
     sum_centroids = kmeans.centroids.sum(axis=1)
 
@@ -133,7 +133,6 @@ def getLabels(kmeans, options):
             if kmeans.centroids[i][j] > main_value:
                 main_value = kmeans.centroids[i][j]
                 position = j
-        #si el major valor trobat(main_value) es mes gran que el paramentre single_thr fem etiquetes compostes
         if main_value >= options['single_thr']:
             #si no esta el color ja a la llista
             if not cn.colors[position] in meaningful_colors:
@@ -141,11 +140,10 @@ def getLabels(kmeans, options):
                 print 'meaningful_colors:' + str(i) + '===' + str(meaningful_colors)
                 unique.append([i])
                 #print 'unique:' + str(i) + '===' + str(unique)
-            #si hi es, afegim index en la posicio corresponent pero no tornem a posar el color a meaningful_colors
             else:
                 index = meaningful_colors.index(cn.colors[position])
                 unique[index].append(i)
-                #print 'uniquelse:' + str(i) + '===' + str(unique)
+                print 'uniquelse:' + str(i) + '===' + str(unique)
 
         else:
             second_value = 0

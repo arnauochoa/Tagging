@@ -186,7 +186,7 @@ class KMeans():
         second_der = np.array([])
 
         for K in range(reps):
-            print "best:"+K
+            print "best:" + str(K)
             self._init_rest(4)
             self.run()
             fit[K] = self.fitting()
