@@ -69,17 +69,12 @@ def similarityMetric(Est, GT, options):
     if not 'metric' in options:
         options['metric'] = 'basic'
 
-#########################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#########################################################
     if options['metric'].lower() == 'basic'.lower():
-        success = 0
-        total = 0
+        intersection = 0.0
         for label in Est:
             if label in GT:
-                success += 1
-        total = success/len(GT)
+                intersection += 1.0
+        total = intersection/len(Est)
         return total
     else:
         return 0
@@ -93,81 +88,58 @@ def getLabels(kmeans, options):
     @return colors  LIST    colors labels of centroids of kmeans object
     @return ind     LIST    indexes of centroids with the same color label
     """
-    #colors = []
-    #univ_color_names = np.colors
-    # for centroid in kmeans.centroids:
-    #     cd, res = cn.SampleColorNaming(centroid)
-    #     colors.append(res)
-    # print colors
 
+    numPoints = np.array([(kmeans.clusters == k).sum() for k in range(kmeans.centroids.shape[0])])
+    # acaca = -np.sort(-numPoints)
+    sortedCentroids = np.empty((0, kmeans.centroids.shape[1]))
 
-#########################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#########################################################
-##  remind to create composed labels if the probability of 
-##  the best color label is less than  options['single_thr']
-    #meaningful_colors = ['color'+'%d'%i for i in range(kmeans.K)]
-    #unique = range(kmeans.K)
-    #return meaningful_colors, unique
+    for k in range(len(numPoints)):
+        index = np.argmax(numPoints)
+        sortedCentroids = np.append(sortedCentroids, np.array([kmeans.centroids[index]]), axis=0)
+        numPoints[index] = 0
 
     meaningful_colors = []
     unique = []
 
-    # if options['colorspace'] == 'RGB':
-    #     kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
-    # elif options['colorspace'] == 'Lab':
-    #     labcentroids = np.reshape(kmeans.centroids, (-1,1,kmeans.centroids.shape[1]))
-    #     print 'labcentroids ====' + str(labcentroids)
-    #     rgbcentroids = color.lab2rgb(labcentroids) * 255
-    #     kmeans.centroids = cn.ImColorNamingTSELabDescriptor(rgbcentroids)
-
-    sum_centroids = kmeans.centroids.sum(axis=1)
+    sum_centroids = sortedCentroids.sum(axis=1)
 
     for i in range(kmeans.centroids.shape[0]):
         main_value = 0
         position = 0
+
         for j in range(kmeans.centroids.shape[1]):
-            if sum_centroids[i] > 1:
-                kmeans.centroids[i][j] = kmeans.centroids[i][j]/sum_centroids[i]
-            if kmeans.centroids[i][j] > main_value:
-                main_value = kmeans.centroids[i][j]
+            if sortedCentroids[i][j] > main_value:
+                main_value = sortedCentroids[i][j]
                 position = j
+
         if main_value >= options['single_thr']:
-            #si no esta el color ja a la llista
             if not cn.colors[position] in meaningful_colors:
                 meaningful_colors.append(cn.colors[position])
-                print 'meaningful_colors:' + str(i) + '===' + str(meaningful_colors)
                 unique.append([i])
-                #print 'unique:' + str(i) + '===' + str(unique)
             else:
                 index = meaningful_colors.index(cn.colors[position])
                 unique[index].append(i)
-                print 'uniquelse:' + str(i) + '===' + str(unique)
 
         else:
             second_value = 0
             second_position = 0
 
             for k in range(kmeans.centroids.shape[1]):
-                if kmeans.centroids[i][k] > second_value and kmeans.centroids[i][k] < main_value:
-                    second_value = kmeans.centroids[i][k]
+                if sortedCentroids[i][k] > second_value and sortedCentroids[i][k] != main_value:
+                    second_value = sortedCentroids[i][k]
                     second_position = k
             if cn.colors[position] < cn.colors[second_position]:
                 doublecolor = cn.colors[position] + cn.colors[second_position]
             else:
                 doublecolor = cn.colors[second_position] + cn.colors[position]
 
-            if not doublecolor in meaningful_colors:
+            if doublecolor not in meaningful_colors:
                 meaningful_colors.append(doublecolor)
-                print 'meaningful_colors_double:' + str(i) + '===' + str(meaningful_colors)
                 unique.append([i])
-                #print 'unique_double:' + str(i) + '===' + str(unique)
 
             else:
                 index = meaningful_colors.index(doublecolor)
                 unique[index].append(i)
-                #print 'uniquelse_double:' + str(i) + '===' + str(unique)
 
     return meaningful_colors, unique
 
@@ -200,16 +172,20 @@ def processImage(im, options):
         imlab = color.rgb2lab(im)
         im = np.reshape(imlab, (-1, imlab.shape[2]))
 ##  2- APPLY KMEANS ACCORDING TO 'OPTIONS' PARAMETER
-    if options['K'] < 2: # find 0the bes K
+    if options['K'] < 2:
         kmeans = km.KMeans(im, 0, options)
         kmeans.bestK()
     else:
         kmeans = km.KMeans(im, options['K'], options)
+        kmeans.run()
 
 ##  3- GET THE NAME LABELS DETECTED ON THE 11 DIMENSIONAL SPACE
     if options['colorspace'].lower() == 'RGB'.lower():
-        colors, ind = getLabels(kmeans,options)
-        #pass
+        kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
+    elif options['colorspace'].lower() == 'Lab'.lower():
+        print kmeans.centroids
+        print color.lab2rgb(kmeans.centroids)
+        kmeans.centroids = cn.ImColorNamingTSELabDescriptor(color.lab2rgb(kmeans.centroids))
 
 #########################################################
 ##  THE FOLLOWING 2 END LINES SHOULD BE KEPT UNMODIFIED
