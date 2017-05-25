@@ -15,7 +15,7 @@ import KMeans as km
 
 plt.close("all")
 if __name__ == "__main__":
-    im = io.imread('Images/0047.jpg')
+    im = io.imread('Images/0000.jpg')
     im = rescale(im, 0.4, preserve_range=True)
     plt.figure(1)
     plt.imshow(im/255)
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     X = np.reshape(im, (-1, im.shape[2]))
     print X
     results = []
-    for k in range(1,13):
+    for k in range(2, 4):
         plt.figure(3)
         options = {'verbose':True, 'km_init':'first'}
 

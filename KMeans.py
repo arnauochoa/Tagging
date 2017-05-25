@@ -118,16 +118,23 @@ class KMeans():
 
         #TODO: com comprovar que no son iguals?
 
-        self.centroids = np.empty(self.K)
+        self.centroids = np.zeros([self.K, 3])
         if self.options['km_init'].lower() == 'first':
-            """
-            k = 0
-            while k is not self.K:
-                if self.X[k] not in self.centroids:
-                    self.centroids[k] = self.X[k]
-                    k += 1"""
 
-            self.centroids = self.X[0:self.K]
+            k = 0
+            p = 0
+            while k is not self.K:
+                if self.X[p] not in self.centroids:
+                    print 'cent: ' + str(k) + ' pix: ' + str(p) + ' res: ' + str(self.X[p]) + ' cent: ' + str(self.centroids)
+                    self.centroids[k] = self.X[p]
+                    k += 1
+                p += 1
+
+            print 'p: ' + str(p)
+            print ' ---> ' + str(self.centroids)
+
+
+            # self.centroids = self.X[0:self.K]
         else:
             self.centroids = [self.X[np.random.randint(self.num_pix)] for _ in range(self.K)]
 
@@ -146,7 +153,7 @@ class KMeans():
 
         self.centroids = np.array([self.X[self.clusters == k].mean(axis=0) for k in range(self.K)])
 
-    def _converges(self):  #TODO: falta testejar
+    def _converges(self):
         """@brief   Checks if there is a difference between current and old centroids
         """
 
