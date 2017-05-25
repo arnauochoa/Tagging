@@ -120,17 +120,24 @@ class KMeans():
 
         self.centroids = np.empty(self.K)
         if self.options['km_init'].lower() == 'first':
+            """
+            k = 0
+            while k is not self.K:
+                if self.X[k] not in self.centroids:
+                    self.centroids[k] = self.X[k]
+                    k += 1"""
+
             self.centroids = self.X[0:self.K]
         else:
             self.centroids = [self.X[np.random.randint(self.num_pix)] for _ in range(self.K)]
 
-    def _cluster_points(self):  #TODO: no tinc clar que sigui aixi
+    def _cluster_points(self):
         """@brief   Calculates the closest centroid of all points in X
         """
 
         self.clusters = np.argmin(distance(self.X, self.centroids), axis=1)
 
-    def _get_centroids(self): #TODO: falta testejar
+    def _get_centroids(self):
         """@brief   Calculates coordinates of centroids based on the coordinates 
                     of all the points assigned to the centroid
         """

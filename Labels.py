@@ -8,6 +8,7 @@ import numpy as np
 import ColorNaming as cn
 from skimage import color
 import KMeans as km
+from numpy import newaxis
 
 
 def NIUs():
@@ -164,14 +165,17 @@ def processImage(im, options):
 
 ##  1- CHANGE THE IMAGE TO THE CORRESPONDING COLOR SPACE FOR KMEANS
     if options['colorspace'].lower() == 'ColorNaming'.lower():
-        imcn = cn.ImColorNamingTSELabDescriptor(im)
-        im = np.reshape(imcn, (-1, imcn.shape[2]))
+        im = cn.ImColorNamingTSELabDescriptor(im)
+        # im = np.reshape(imcn, (-1, imcn.shape[2]))
     elif options['colorspace'].lower() == 'RGB'.lower():
-        im = np.reshape(im, (-1, im.shape[2]))
+        pass
+        # im = np.reshape(im, (-1, im.shape[2]))
     elif options['colorspace'].lower() == 'Lab'.lower():
-        imlab = color.rgb2lab(im)
-        im = np.reshape(imlab, (-1, imlab.shape[2]))
-##  2- APPLY KMEANS ACCORDING TO 'OPTIONS' PARAMETER
+        im = color.rgb2lab(im)
+    elif options['colorspace'].lower() == 'HSV'.lower():
+        im = color.rgb2hsv(im)
+
+    ##  2- APPLY KMEANS ACCORDING TO 'OPTIONS' PARAMETER
     if options['K'] < 2:
         kmeans = km.KMeans(im, 0, options)
         kmeans.bestK()
@@ -182,12 +186,21 @@ def processImage(im, options):
 ##  3- GET THE NAME LABELS DETECTED ON THE 11 DIMENSIONAL SPACE
     if options['colorspace'].lower() == 'RGB'.lower():
         kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
-    elif options['colorspace'].lower() == 'Lab'.lower():
-        print kmeans.centroids
-        print color.lab2rgb(kmeans.centroids)
-        kmeans.centroids = cn.ImColorNamingTSELabDescriptor(color.lab2rgb(kmeans.centroids))
 
-#########################################################
+    elif options['colorspace'].lower() == 'Lab'.lower():
+        kmeans.centroids = kmeans.centroids[:, newaxis, :]
+        kmeans.centroids = color.lab2rgb(kmeans.centroids)  # *255.0
+        kmeans.centroids = np.reshape(kmeans.centroids, (kmeans.centroids.shape[0], kmeans.centroids.shape[2]))
+        kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
+
+    elif options['colorspace'].lower() == 'HSV'.lower():
+        kmeans.centroids = kmeans.centroids[:, newaxis, :]
+        kmeans.centroids = color.hsv2rgb(kmeans.centroids)
+        kmeans.centroids = np.reshape(kmeans.centroids, (kmeans.centroids.shape[0], kmeans.centroids.shape[2]))
+        kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
+
+
+    #########################################################
 ##  THE FOLLOWING 2 END LINES SHOULD BE KEPT UNMODIFIED
 #########################################################
     colors, which = getLabels(kmeans, options)
