@@ -169,7 +169,6 @@ def processImage(im, options):
     ##  1- CHANGE THE IMAGE TO THE CORRESPONDING COLOR SPACE FOR KMEANS
     if options['colorspace'].lower() == 'ColorNaming'.lower():
         im = cn.ImColorNamingTSELabDescriptor(im)
-        # im = np.reshape(imcn, (-1, imcn.shape[2]))
     elif options['colorspace'].lower() == 'RGB'.lower():
         pass
         # im = np.reshape(im, (-1, im.shape[2]))
@@ -192,7 +191,7 @@ def processImage(im, options):
 
     elif options['colorspace'].lower() == 'Lab'.lower():
         kmeans.centroids = kmeans.centroids[:, newaxis, :]
-        kmeans.centroids = color.lab2rgb(kmeans.centroids)  # *255.0
+        kmeans.centroids = color.lab2rgb(kmeans.centroids)
         kmeans.centroids = np.reshape(kmeans.centroids, (kmeans.centroids.shape[0], kmeans.centroids.shape[2]))
         kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
 

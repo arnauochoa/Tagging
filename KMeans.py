@@ -54,11 +54,7 @@ class KMeans():
         sets X an as an array of data in vector form (PxD  where P=N*M and D=3 in the above example)
         """
 
-        if X.ndim is 3:
-            self.X = np.reshape(X, (-1, X.shape[2]))
-        else:
-            self.X = X[:]
-        self.num_pix = len(self.X)
+        self.X = np.reshape(X, (-1, X.shape[len(X.shape) - 1]))
 
     def _init_options(self, options):
         """@brief Initialization of options in case some fields are left undefined
@@ -99,19 +95,30 @@ class KMeans():
         """@brief Initialization of centroids
         depends on self.options['km_init']
         """
-
-        # TODO: com comprovar que no son iguals?
-
-        self.centroids = np.zeros([self.K, 3])
+        """
         if self.options['km_init'].lower() == 'first':
+            self.centroids = np.zeros((self.K, self.X.shape[1]))
+            self.centroids[0] = self.X[0]
+            ind = 1
+            for i in range (1, self.K):
+                while (self.X[ind] == self.centroids).all(1).any():
+                    ind += 1
+                self.centroids[i] = self.X[ind]
+                ind += 1"""
 
-            k = 0
-            p = 0
-            while k is not self.K:
-                if self.X[p] not in self.centroids:
+        self.centroids = np.zeros((self.K, self.X.shape[1]))
+        if self.options['km_init'].lower() == 'first':
+            self.centroids[0] = self.X[0]
+            k = 1
+            p = 1
+            #while k is not self.K:
+            for i in range(1, self.K):
+                if (self.X[p] == self.centroids).all(1).any():
+                    p += 1
+                else:
                     self.centroids[k] = self.X[p]
                     k += 1
-                p += 1
+                    p += 1
 
         elif self.options['km_init'].lower() == 'random':
             k = 0
