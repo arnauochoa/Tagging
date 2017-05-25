@@ -127,7 +127,6 @@ class KMeans():
                 if self.X[p] not in self.centroids:
                     # print 'cent: ' + str(k) + ' pix: ' + str(p) + ' res: ' + str(self.X[p]) + \
                     #      ' cent: ' + str(self.centroids)
-
                     self.centroids[k] = self.X[p]
                     k += 1
                 p += 1
