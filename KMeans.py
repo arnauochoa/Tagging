@@ -125,18 +125,22 @@ class KMeans():
             p = 0
             while k is not self.K:
                 if self.X[p] not in self.centroids:
-                    print 'cent: ' + str(k) + ' pix: ' + str(p) + ' res: ' + str(self.X[p]) + ' cent: ' + str(self.centroids)
+                    # print 'cent: ' + str(k) + ' pix: ' + str(p) + ' res: ' + str(self.X[p]) + \
+                    #      ' cent: ' + str(self.centroids)
+
                     self.centroids[k] = self.X[p]
                     k += 1
                 p += 1
 
-            print 'p: ' + str(p)
-            print ' ---> ' + str(self.centroids)
-
-
-            # self.centroids = self.X[0:self.K]
-        else:
-            self.centroids = [self.X[np.random.randint(self.num_pix)] for _ in range(self.K)]
+        elif self.options['km_init'].lower() == 'random':
+            k = 0
+            while k is not self.K:
+                rand = np.random.randint(self.num_pix)
+                if self.X[rand] not in self.centroids:
+                    # print 'cent: ' + str(k) + ' pix: ' + str(rand) + ' res: ' + str(self.X[rand]) \
+                    #       + ' cent: ' + str(self.centroids)
+                    self.centroids[k] = self.X[rand]
+                    k += 1
 
     def _cluster_points(self):
         """@brief   Calculates the closest centroid of all points in X
