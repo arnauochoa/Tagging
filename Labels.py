@@ -4,10 +4,17 @@
 @author: ramon, bojana
 """
 import re
+
 import numpy as np
-import ColorNaming as cn
+from numpy import newaxis
 from skimage import color
+
+import ColorNaming as cn
 import KMeans as km
+
+
+def NIUs():
+    return 1392654, 1392663
 
 
 def loadGT(fileName):
@@ -23,9 +30,9 @@ def loadGT(fileName):
     fd = open(fileName, 'r')
     for line in fd:
         splitLine = line.split(' ')[:-1]
-        labels = [''.join(sorted(filter(None,re.split('([A-Z][^A-Z]*)',l)))) for l in splitLine[1:]]
-        groundTruth.append( (splitLine[0], labels) )
-        
+        labels = [''.join(sorted(filter(None, re.split('([A-Z][^A-Z]*)', l)))) for l in splitLine[1:]]
+        groundTruth.append((splitLine[0], labels))
+
     return groundTruth
 
 
@@ -37,13 +44,14 @@ def evaluate(description, GT, options):
     @return mean_score,scores mean_score FLOAT is the mean of the scores of each image
                               scores     LIST contain the similiraty between the ground truth list of color names and the obtained
     """
-#########################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#########################################################
-    scores = np.random.rand(len(description),1)        
-    return sum(scores)/len(description), scores
 
+    scores = []
+    i = 0
+    for gt in GT:
+        scores.append(similarityMetric(description[i], gt[1], options))
+        i += 1
+    suma_scores = sum(scores)
+    return suma_scores / len(description), scores
 
 
 def similarityMetric(Est, GT, options):
@@ -53,22 +61,23 @@ def similarityMetric(Est, GT, options):
     @param options DICT  contains options to control metric, ...
     @return S float similarity between label LISTs
     """
-    
+
     if options == None:
         options = {}
     if not 'metric' in options:
         options['metric'] = 'basic'
-        
-#########################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#########################################################
+
     if options['metric'].lower() == 'basic'.lower():
-        import random
-        return random.uniform(0, 1)        
+        intersection = 0.0
+        for label in Est:
+            if label in GT:
+                intersection += 1.0
+        total = intersection / len(Est)
+        return total
     else:
         return 0
-        
+
+
 def getLabels(kmeans, options):
     """@brief   Labels all centroids of kmeans object to their color names
     
@@ -79,15 +88,64 @@ def getLabels(kmeans, options):
     @return ind     LIST    indexes of centroids with the same color label
     """
 
-#########################################################
-##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-##  AND CHANGE FOR YOUR OWN CODE
-#########################################################
-##  remind to create composed labels if the probability of 
-##  the best color label is less than  options['single_thr']
-    meaningful_colors = ['color'+'%d'%i for i in range(kmeans.K)]
-    unique = range(kmeans.K)
+    sortedCentroids = setLabelsOrder(kmeans)
+    meaningful_colors = []
+    unique = []
+
+    for i in range(kmeans.centroids.shape[0]):
+        main_value = 0
+        position = 0
+
+        for j in range(kmeans.centroids.shape[1]):
+            if sortedCentroids[i][j] > main_value:
+                main_value = sortedCentroids[i][j]
+                position = j
+
+        if main_value >= options['single_thr']:
+            getOneColorLabels(i, meaningful_colors, position, unique)
+        else:
+            getDoubleColorLabels(i, kmeans, main_value, meaningful_colors, position, sortedCentroids, unique)
+
     return meaningful_colors, unique
+
+
+def setLabelsOrder(kmeans):
+    numPoints = np.array([(kmeans.clusters == k).sum() for k in range(kmeans.centroids.shape[0])])
+    sortedCentroids = np.empty((0, kmeans.centroids.shape[1]))
+    for k in range(len(numPoints)):
+        index = np.argmax(numPoints)
+        sortedCentroids = np.append(sortedCentroids, np.array([kmeans.centroids[index]]), axis=0)
+        numPoints[index] = 0
+    return sortedCentroids
+
+
+def getDoubleColorLabels(i, kmeans, main_value, meaningful_colors, position, sortedCentroids, unique):
+    second_value = 0
+    second_position = 0
+    for k in range(kmeans.centroids.shape[1]):
+        if sortedCentroids[i][k] > second_value and sortedCentroids[i][k] != main_value:
+            second_value = sortedCentroids[i][k]
+            second_position = k
+    if cn.colors[position] < cn.colors[second_position]:
+        doublecolor = cn.colors[position] + cn.colors[second_position]
+    else:
+        doublecolor = cn.colors[second_position] + cn.colors[position]
+    if doublecolor not in meaningful_colors:
+        meaningful_colors.append(doublecolor)
+        unique.append([i])
+
+    else:
+        index = meaningful_colors.index(doublecolor)
+        unique[index].append(i)
+
+
+def getOneColorLabels(i, meaningful_colors, position, unique):
+    if not cn.colors[position] in meaningful_colors:
+        meaningful_colors.append(cn.colors[position])
+        unique.append([i])
+    else:
+        index = meaningful_colors.index(cn.colors[position])
+        unique[index].append(i)
 
 
 def processImage(im, options):
@@ -101,35 +159,48 @@ def processImage(im, options):
     @return kmeans  KMeans  object of the class KMeans
     """
 
-#########################################################
-##  YOU MUST ADAPT THE CODE IN THIS FUNCTIONS TO:
-##  1- CHANGE THE IMAGE TO THE CORRESPONDING COLOR SPACE FOR KMEANS
-##  2- APPLY KMEANS ACCORDING TO 'OPTIONS' PARAMETER
-##  3- GET THE NAME LABELS DETECTED ON THE 11 DIMENSIONAL SPACE
-#########################################################
+    #########################################################
+    ##  YOU MUST ADAPT THE CODE IN THIS FUNCTIONS TO:
+    ##  1- CHANGE THE IMAGE TO THE CORRESPONDING COLOR SPACE FOR KMEANS
+    ##  2- APPLY KMEANS ACCORDING TO 'OPTIONS' PARAMETER
+    ##  3- GET THE NAME LABELS DETECTED ON THE 11 DIMENSIONAL SPACE
+    #########################################################
 
-##  1- CHANGE THE IMAGE TO THE CORRESPONDING COLOR SPACE FOR KMEANS
-    if options['colorspace'].lower() == 'ColorNaming'.lower():  
+    ##  1- CHANGE THE IMAGE TO THE CORRESPONDING COLOR SPACE FOR KMEANS
+    if options['colorspace'].lower() == 'ColorNaming'.lower():
+        im = cn.ImColorNamingTSELabDescriptor(im)
+        # im = np.reshape(imcn, (-1, imcn.shape[2]))
+    elif options['colorspace'].lower() == 'RGB'.lower():
         pass
-    elif options['colorspace'].lower() == 'RGB'.lower():        
-        pass 
-    elif options['colorspace'].lower() == 'Lab'.lower():        
-        pass
+        # im = np.reshape(im, (-1, im.shape[2]))
+    elif options['colorspace'].lower() == 'Lab'.lower():
+        im = color.rgb2lab(im)
+    elif options['colorspace'].lower() == 'HSV'.lower():
+        im = color.rgb2hsv(im)
 
-##  2- APPLY KMEANS ACCORDING TO 'OPTIONS' PARAMETER
-    if options['K']<2: # find the bes K
+    ##  2- APPLY KMEANS ACCORDING TO 'OPTIONS' PARAMETER
+    if options['K'] < 2:
         kmeans = km.KMeans(im, 0, options)
         kmeans.bestK()
     else:
-        kmeans = km.KMeans(im, options['K'], options) 
+        kmeans = km.KMeans(im, options['K'], options)
         kmeans.run()
 
-##  3- GET THE NAME LABELS DETECTED ON THE 11 DIMENSIONAL SPACE
-    if options['colorspace'].lower() == 'RGB'.lower():        
-        pass     
+    ##  3- GET THE NAME LABELS DETECTED ON THE 11 DIMENSIONAL SPACE
+    if options['colorspace'].lower() == 'RGB'.lower():
+        kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
 
-#########################################################
-##  THE FOLLOWING 2 END LINES SHOULD BE KEPT UNMODIFIED
-#########################################################
-    colors, which = getLabels(kmeans, options)   
+    elif options['colorspace'].lower() == 'Lab'.lower():
+        kmeans.centroids = kmeans.centroids[:, newaxis, :]
+        kmeans.centroids = color.lab2rgb(kmeans.centroids)  # *255.0
+        kmeans.centroids = np.reshape(kmeans.centroids, (kmeans.centroids.shape[0], kmeans.centroids.shape[2]))
+        kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
+
+    elif options['colorspace'].lower() == 'HSV'.lower():
+        kmeans.centroids = kmeans.centroids[:, newaxis, :]
+        kmeans.centroids = color.hsv2rgb(kmeans.centroids)
+        kmeans.centroids = np.reshape(kmeans.centroids, (kmeans.centroids.shape[0], kmeans.centroids.shape[2]))
+        kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
+
+    colors, which = getLabels(kmeans, options)
     return colors, which, kmeans
