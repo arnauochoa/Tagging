@@ -297,8 +297,8 @@ t=time.time()
 GTFile = 'LABELSlarge.txt'
 Options = {'colorspace':'RGB', 'K':6, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
 score=[]
-score.append(TestSolution(1, Options, GTFile, 1, [1,2,3,4,5,6,7,8,9,10,11]))
-score.append(TestSolution(2, Options, GTFile, 23, [1,3,4,5,6,7,8,9,10,11]))
+# score.append(TestSolution(1, Options, GTFile, 1, [1,2,3,4,5,6,7,8,9,10,11]))
+ # score.append(TestSolution(2, Options, GTFile, 23, [1,3,4,5,6,7,8,9,10,11]))
 Options = {'colorspace':'ColorNaming', 'K':3, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
 score.append(TestSolution(3, Options, GTFile, 43, [1,3,4,5,6,7,8,9,10,11]))
 
