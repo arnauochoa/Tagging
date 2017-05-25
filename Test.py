@@ -259,8 +259,8 @@ Options = {'colorspace':'RGB', 'K':6, 'km_init':'first', 'fitting':'Fisher', 'si
 score=[]
 # score.append(TestSolution(1, Options, GTFile, 1))
 # score.append(TestSolution(2, Options, GTFile, 23))
-# Options = {'colorspace':'ColorNaming', 'K':3, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
-# score.append(TestSolution(3, Options, GTFile, 43))
+#Options = {'colorspace':'ColorNaming', 'K':3, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
+#score.append(TestSolution(3, Options, GTFile, 43))
 
 Options = {'colorspace':'Lab', 'K':3, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
 score.append(TestSolution(4, Options, GTFile, 43))
