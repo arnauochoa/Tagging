@@ -198,15 +198,14 @@ class KMeans():
         """
 
         fit = np.array([])
-        reps = 5
         second_der = np.array([])
 
-        for K in range(reps):
+        for K in range(self.options["K"]):
             self._init_rest(4)
             self.run()
             if len(fit) > 0:
                 fit[K] = self.fitting()
-        for K in range(reps - 2):
+        for K in range(self.options["K"] - 2):
             if len(fit) > 0:
                 second_der[K] = fit[K + 1] + fit[K - 1] - 2 * fit[K]  # segona derivada
         bestK = 1 + np.argmax(second_der)  # k amb valor segona derivada major (major corva)
