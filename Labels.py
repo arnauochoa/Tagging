@@ -191,7 +191,7 @@ def processImage(im, options):
 
     elif options['colorspace'].lower() == 'Lab'.lower():
         kmeans.centroids = kmeans.centroids[:, newaxis, :]
-        kmeans.centroids = color.lab2rgb(kmeans.centroids)
+        kmeans.centroids = color.lab2rgb(kmeans.centroids) * 255.0
         kmeans.centroids = np.reshape(kmeans.centroids, (kmeans.centroids.shape[0], kmeans.centroids.shape[2]))
         kmeans.centroids = cn.ImColorNamingTSELabDescriptor(kmeans.centroids)
 
