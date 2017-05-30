@@ -4,6 +4,7 @@
 """
 from copy import deepcopy
 from math import sqrt
+from sklearn.metrics import silhouette_samples
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -107,6 +108,7 @@ class KMeans():
                 ind += 1"""
 
         self.centroids = np.zeros((self.K, self.X.shape[1]))
+        """
         if self.options['km_init'].lower() == 'first':
             self.centroids[0] = self.X[0]
             k = 1
@@ -118,7 +120,17 @@ class KMeans():
                 else:
                     self.centroids[k] = self.X[p]
                     k += 1
-                    p += 1
+                    p += 1"""
+
+        if self.options['km_init'].lower() == 'first':
+            self.centroids = np.zeros((self.K, self.X.shape[1]))
+            self.centroids[0] = self.X[0]
+            ind = 1
+            for i in range(1, self.K):
+                while (self.X[ind] == self.centroids).all(1).any():
+                    ind += 1
+                self.centroids[i] = self.X[ind]
+                ind += 1
 
         elif self.options['km_init'].lower() == 'random':
             k = 0
@@ -240,8 +252,11 @@ class KMeans():
 
             return discriminant
 
-        else:  # TODO provar a fer silhouette
-            return np.random.rand(1)
+        elif self.options['fitting'].lower() == 'silhouette':
+            return np.mean(silhouette_samples(self.X, self.clusters))
+
+        else:
+            print ' --> Error: Invalid fitting option value.'
 
     def plot(self, first_time=True):
         """@brief   Plots the results
