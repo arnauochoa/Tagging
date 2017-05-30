@@ -61,7 +61,7 @@ if __name__ == "__main__":
     optionsList = []
     row = 0
 
-    workbook = xlsxwriter.Workbook('EvaluationTest' + 'Test' + str(1) + '.xlsx')
+    workbook = xlsxwriter.Workbook('EvaluationTest' + 'Test' + str(time()) + '.xlsx')
     worksheet = workbook.add_worksheet()
 
     #==================================PARA Km_init=first==========================
@@ -74,6 +74,34 @@ if __name__ == "__main__":
     options = {'colorspace':'RGB', 'verbose':False, 'km_init':'first', 'metric':'basic', 'fitting':'silhouette', 'synonyms':False}
     optionsList.append(options)
 
+
+    #===PARA colorspace=LAB
+            # PARA fitting=fisher
+    options = {'colorspace':'Lab', 'verbose':False, 'km_init':'first', 'metric':'basic', 'fitting':'fisher', 'synonyms':False}
+    optionsList.append(options)
+            # PARA fitting=sil
+    options = {'colorspace':'Lab', 'verbose':False, 'km_init':'first', 'metric':'basic', 'fitting':'silhouette', 'synonyms':False}
+    optionsList.append(options)
+
+
+    # ==================================PARA Km_init=RANDOM==========================
+
+    # ===PARA colorspace=RGB
+        # PARA fitting=fisher
+    options = {'colorspace':'RGB', 'verbose':False, 'km_init':'random', 'metric':'basic', 'fitting':'fisher', 'synonyms':False}
+    optionsList.append(options)
+        # PARA fitting=sil
+    options = {'colorspace':'RGB', 'verbose':False, 'km_init':'random', 'metric':'basic', 'fitting':'silhouette', 'synonyms':False}
+    optionsList.append(options)
+
+    # ===PARA colorspace=LAB
+        # PARA fitting=fisher
+    options = {'colorspace':'RGB', 'verbose':False, 'km_init':'random', 'metric':'basic', 'fitting':'fisher', 'synonyms':False}
+    optionsList.append(options)
+        # PARA fitting=sil
+    options = {'colorspace':'RGB', 'verbose':False, 'km_init':'random', 'metric':'basic', 'fitting':'silhouette', 'synonyms':False}
+    optionsList.append(options)
+
     for i in range(len(optionsList)):
         execute(optionsList[i], worksheet, row)
         row += 97
@@ -82,49 +110,18 @@ if __name__ == "__main__":
 
     workbook.close()
 
-    #===PARA colorspace=LAB
-            # PARA fitting=fisher
-    options = {'colorspace':'Lab', 'K':4, 'single_thr':0.6, 'verbose':False, 'km_init':'first', 'metric':'basic', 'fitting':'fisher', 'synonyms':False}
-    optionsList.append(options)
-            # PARA fitting=sil
-    options = {'colorspace':'Lab', 'K':6, 'single_thr':0.6, 'verbose':False, 'km_init':'first', 'metric':'basic', 'fitting':'silhouette', 'synonyms':False}
-    optionsList.append(options)
-
-
     #===PARA colorspace=HSV
             # PARA fitting=fisher
-    options = {'colorspace':'HSV', 'K':6, 'single_thr':0.6, 'verbose':False, 'km_init':'first', 'metric':'basic', 'fitting':'fisher', 'synonyms':False}
+    options = {'colorspace':'HSV', 'verbose':False, 'km_init':'first', 'metric':'basic', 'fitting':'fisher', 'synonyms':False}
     optionsList.append(options)
             # PARA fitting=sil
-    options = {'colorspace':'HSV', 'K':6, 'single_thr':0.6, 'verbose':False, 'km_init':'first', 'metric':'basic', 'fitting':'silhouette', 'synonyms':False}
-    optionsList.append(options)
-
-
-
-
-
-    # ==================================PARA Km_init=RANDOM==========================
-
-    # ===PARA colorspace=RGB
-        # PARA fitting=fisher
-    options = {'colorspace':'RGB', 'K':6, 'single_thr':0.6, 'verbose':False, 'km_init':'random', 'metric':'basic', 'fitting':'fisher', 'synonyms':False}
-    optionsList.append(options)
-        # PARA fitting=sil
-    options = {'colorspace':'RGB', 'K':6, 'single_thr':0.6, 'verbose':False, 'km_init':'random', 'metric':'basic', 'fitting':'silhouette', 'synonyms':False}
-    optionsList.append(options)
-
-    # ===PARA colorspace=LAB
-        # PARA fitting=fisher
-    options = {'colorspace':'RGB', 'K':6, 'single_thr':0.6, 'verbose':False, 'km_init':'random', 'metric':'basic', 'fitting':'fisher', 'synonyms':False}
-    optionsList.append(options)
-        # PARA fitting=sil
-    options = {'colorspace':'RGB', 'K':6, 'single_thr':0.6, 'verbose':False, 'km_init':'random', 'metric':'basic', 'fitting':'silhouette', 'synonyms':False}
+    options = {'colorspace':'HSV', 'verbose':False, 'km_init':'first', 'metric':'basic', 'fitting':'silhouette', 'synonyms':False}
     optionsList.append(options)
 
     # ===PARA colorspace=HSV
         # PARA fitting=fisher
-    options = {'colorspace':'RGB', 'K':6, 'single_thr':0.6, 'verbose':False, 'km_init':'random', 'metric':'basic', 'fitting':'fisher', 'synonyms':False}
+    options = {'colorspace':'RGB', 'verbose':False, 'km_init':'random', 'metric':'basic', 'fitting':'fisher', 'synonyms':False}
     optionsList.append(options)
         # PARA fitting=sil
-    options = {'colorspace':'RGB', 'K':6, 'single_thr':0.6, 'verbose':False, 'km_init':'random', 'metric':'basic', 'fitting':'silhouette', 'synonyms':False}
+    options = {'colorspace':'RGB', 'verbose':False, 'km_init':'random', 'metric':'basic', 'fitting':'silhouette', 'synonyms':False}
     optionsList.append(options)
