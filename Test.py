@@ -5,10 +5,13 @@ Created on Mon Apr 03 10:31:35 2017
 @author: ramon
 """
 import json
+
+import xlsxwriter as xlsxwriter
 from skimage import io
 from skimage.transform import rescale
 import numpy as np
 import ColorNaming as cn
+import time
 
 import os.path
 if os.path.isfile('TeachersLabels.py') and True: 
@@ -25,6 +28,7 @@ TestFolder = 'Test/'
 ImageFolder = 'Images/'
 if not os.path.isdir(TestFolder):
     os.makedirs(TestFolder)
+
 
 def TestInfo(Test,Options,GTFile, NImage):
     global student
@@ -80,7 +84,7 @@ def CheckTest(Message, D, File, student):
     return same
             
 ######################################################################################################
-def TestSolution(Test, Options, GTFile, NImage):
+def TestSolution(Test, Options, GTFile, NImage, worksheet, row):
     global student
     Options, GTFile, NImage = TestInfo(Test, Options, GTFile, NImage)
     ######################################################################################################
@@ -98,6 +102,10 @@ def TestSolution(Test, Options, GTFile, NImage):
     ######################################################################################################
     ######################################################################################################
     Message = '-1 testing data init'
+
+    #inicialización variables de estadisticas
+    start_time = time.time()
+    col = 0
     
     File = TestFolder + '%02d'%Test + Message + '.txt'
     
@@ -105,6 +113,10 @@ def TestSolution(Test, Options, GTFile, NImage):
     D=k_m.X[:10]
     Results.append(CheckTest(Message, D, File, student))
     Messages.append(Message)
+
+    #escritura en excel de estadisticas
+    worksheet.write(row, col, "1")
+    print "I'm wirtting on excel (ADE stuff)"
 
     ######################################################################################################
     ######################################################################################################
@@ -118,7 +130,8 @@ def TestSolution(Test, Options, GTFile, NImage):
     D = km.distance(X,C)
     Results.append(CheckTest(Message, D, File, student))
     Messages.append(Message)
-    
+
+
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
@@ -131,7 +144,7 @@ def TestSolution(Test, Options, GTFile, NImage):
     D=k_m.clusters[:100]
     Results.append(CheckTest(Message, D, File, student))
     Messages.append(Message)
-    
+
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
@@ -144,7 +157,7 @@ def TestSolution(Test, Options, GTFile, NImage):
     D=k_m.centroids
     Results.append(CheckTest(Message, D, File, student))
     Messages.append(Message)
-    
+
     ######################################################################################################
     ######################################################################################################
     ######################################################################################################
@@ -255,18 +268,74 @@ def TestSolution(Test, Options, GTFile, NImage):
 
 ######################################################################################################
 GTFile = 'LABELSlarge.txt'
-Options = {'colorspace':'RGB', 'K':6, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
+
+
 score=[]
-# score.append(TestSolution(1, Options, GTFile, 1))
-# score.append(TestSolution(2, Options, GTFile, 23))
-#Options = {'colorspace':'ColorNaming', 'K':3, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
-#score.append(TestSolution(3, Options, GTFile, 43))
+row = 0
 
+#==============TEST 1 ===================
+workbook = xlsxwriter.Workbook('IAP2' + 'Test' + str(1) + '.xlsx')
+worksheet = workbook.add_worksheet()
+
+Options = {'colorspace':'RGB', 'K':6, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
+print "1" + str(row)
+score.append(TestSolution(1, Options, GTFile, 1, worksheet, row))
+Options = {'colorspace':'RGB', 'K':6, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
+row += 10
+print "2" + str(row)
+score.append(TestSolution(1, Options, GTFile, 1, worksheet, row))
+
+workbook.close()
+
+
+
+#==============TEST 2====================
+Options = {'colorspace':'RGB', 'K':6, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
+
+workbook = xlsxwriter.Workbook('IAP2' + 'Test' + str(2) + '.xlsx')
+worksheet = workbook.add_worksheet()
+row += 10
+
+print "3" + str(row)
+
+score.append(TestSolution(2, Options, GTFile, 23, worksheet, row))
+
+workbook.close()
+
+#==============TEST 3====================
+Options = {'colorspace':'ColorNaming', 'K':3, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
+
+workbook = xlsxwriter.Workbook('IAP2' + 'Test' + str(3) + '.xlsx')
+worksheet = workbook.add_worksheet()
+row += 10
+
+print "4" + str(row)
+
+score.append(TestSolution(3, Options, GTFile, 43, worksheet, row))
+
+workbook.close()
+
+#==============TEST 4====================
 Options = {'colorspace':'Lab', 'K':3, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
-score.append(TestSolution(4, Options, GTFile, 43))
 
+workbook = xlsxwriter.Workbook('IAP2' + 'Test' + str(4) + '.xlsx')
+worksheet = workbook.add_worksheet()
+row += 10
+
+score.append(TestSolution(4, Options, GTFile, 43, worksheet, row))
+
+workbook.close()
+#==============TEST 5====================
 Options = {'colorspace':'HSV', 'K':3, 'km_init':'first', 'fitting':'Fisher', 'single_thr':0.6, 'metric':'basic', 'verbose':False}
-score.append(TestSolution(5, Options, GTFile, 43))
+
+workbook = xlsxwriter.Workbook('IAP2' + 'Test' + str(5) + '.xlsx')
+worksheet = workbook.add_worksheet()
+row += 10
+
+score.append(TestSolution(5, Options, GTFile, 43, worksheet, row))
+
+workbook.close()
+###########################################
 
 GT = lb.loadGT(ImageFolder + GTFile)
 im = io.imread(ImageFolder + GT[0][0])
